@@ -24,6 +24,11 @@ namespace KawaiiGherkin\Formatter;
  */
 final class Tags extends AbstractFormatter
 {
+    /**
+     * @param array $tags
+     *
+     * @return string
+     */
     public function format(array $tags)
     {
         return implode(
