@@ -1,0 +1,15 @@
+language: php
+
+sudo: false
+
+php:
+  - 5.6
+  - 7.0
+  - hhvm
+
+script:
+  - ./vendor/bin/phpunit
+
+matrix:
+  allow_failures:
+    - php: hhvm
