@@ -19,9 +19,10 @@
 namespace KawaiiGherkin\Formatter;
 
 use Behat\Gherkin\Node\ScenarioInterface;
+use Behat\Gherkin\Node\TableNode;
 
 /**
- * @author Jefersson Nathan  <malukenho@phpse.net>
+ * @author  Jefersson Nathan  <malukenho@phpse.net>
  * @license MIT
  */
 final class Scenario
@@ -94,14 +95,15 @@ final class Scenario
         // TODO: abstract scenario formatter logic
         $longDesc = '';
         foreach ($scenario->getSteps() as $step) {
-            $indentSpaces =  $recue - strlen(trim($step->getKeyword())) + 1;
+            $indentSpaces = $recue - strlen(trim($step->getKeyword())) + 1;
             $longDesc .= str_repeat(' ', $indentSpaces + self::INDENTATION) .
                 trim($step->getKeyword()) . ' ' . trim($step->getText()) . PHP_EOL;
 
             if ($step->hasArguments()) {
                 /* @var $argument TableNode */
                 foreach ($step->getArguments() as $argument) {
-                    if ($argument->getNodeType() === 'Table') {
+                    if ($argument->getNodeType() === 'Table' || $argument->getNodeType() === 'ExampleTable') {
+
                         $longDesc .= implode('', array_map(
                                 function ($arguments) use ($recue) {
                                     return str_repeat(' ', $recue + 4) . trim($arguments) . PHP_EOL;
@@ -109,10 +111,33 @@ final class Scenario
                                 explode("\n", $argument->getTableAsString())
                             )
                         );
+                    } else if ($argument->getNodeType() === 'PyString') {
+                        $longDesc .=
+                            $this->indent(8) . '"""' . PHP_EOL . implode('', array_map(
+                                    function ($arguments) use ($recue) {
+                                        return str_repeat(' ', $recue + 4) . trim($arguments) . PHP_EOL;
+                                    },
+                                    $argument->getStrings()
+                                )
+                            ) . $this->indent(8) . '"""' . PHP_EOL;
                     }
                 }
             }
         }
+
+        if ($scenario instanceof \Behat\Gherkin\Node\OutlineNode && $scenario->hasExamples()) {
+            /* @var $argument TableNode */
+            $longDesc .= PHP_EOL . $this->indent() . $this->indent() . rtrim($scenario->getExampleTable()->getKeyword()) . ':' . PHP_EOL;
+
+            $longDesc .= implode('', array_map(
+                    function ($arguments) use ($recue) {
+                        return str_repeat(' ', $recue + 2) . trim($arguments) . PHP_EOL;
+                    },
+                    explode("\n", $scenario->getExampleTable()->getTableAsString())
+                )
+            );
+        }
+
 
         return $longDesc . PHP_EOL;
     }
