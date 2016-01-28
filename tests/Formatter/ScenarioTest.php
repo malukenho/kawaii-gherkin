@@ -83,4 +83,27 @@ EOS;
 
         self::assertSame($expected, $this->formatter->format($scenario));
     }
+
+    public function testCanFormatScenarioWithoutTags()
+    {
+        $expected = <<<EOS
+    Scenario: Not all people who program php are becoming kawaii
+        Given I am a Java programmer
+          And I am not Kawaii
+
+EOS;
+
+        $scenario = new ScenarioNode(
+            ' Not all people who program php are becoming kawaii ',
+            [],
+            [
+                new StepNode('Given', '       I am a Java programmer ', [], 1, 'Given'),
+                new StepNode('And', '  I am not Kawaii ', [], 2, 'And'),
+            ],
+            'Scenario',
+            1
+        );
+
+        self::assertSame($expected, $this->formatter->format($scenario));
+    }
 }
