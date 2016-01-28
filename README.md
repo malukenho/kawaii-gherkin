@@ -1,6 +1,8 @@
 Kawaii Gherkin
 ==============
 
+[![Build Status](https://travis-ci.org/malukenho/kawaii-gherkin.svg?branch=master)](https://travis-ci.org/malukenho/kawaii-gherkin)
+
 **Kawaii Gherkin** is a small tool to fix gherkin code styles. 
 
 ### Installing
