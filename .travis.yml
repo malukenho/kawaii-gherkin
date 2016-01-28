@@ -8,6 +8,8 @@ php:
   - hhvm
 
 script:
+  - composer self-update
+  - composer install
   - ./vendor/bin/phpunit
 
 matrix:
