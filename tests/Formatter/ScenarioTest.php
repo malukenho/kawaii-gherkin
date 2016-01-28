@@ -23,7 +23,15 @@ use Behat\Gherkin\Node\StepNode;
 use Behat\Gherkin\Node\TableNode;
 use KawaiiGherkin\Formatter\Scenario;
 
-class ScenarioTest extends \PHPUnit_Framework_TestCase
+/**
+ * Tests for {@see \KawaiiGherkin\Formatter\Scenario}
+ *
+ * @author Jefersson Nathan <malukenho@phpse.net>
+ * @license MIT
+ *
+ * @group Coverage
+ */
+final class ScenarioTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Scenario

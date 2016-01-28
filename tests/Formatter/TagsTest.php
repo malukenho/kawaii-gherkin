@@ -20,6 +20,14 @@ namespace KawaiiGherkinTest\Formatter;
 
 use KawaiiGherkin\Formatter\Tags;
 
+/**
+ * Tests for {@see \KawaiiGherkin\Formatter\Tags}
+ *
+ * @author Jefersson Nathan <malukenho@phpse.net>
+ * @license MIT
+ *
+ * @group Coverage
+ */
 final class TagsTest extends \PHPUnit_Framework_TestCase
 {
     /**

@@ -24,6 +24,14 @@ use Behat\Gherkin\Node\TableNode;
 use KawaiiGherkin\Formatter\Background;
 use Prophecy\Argument;
 
+/**
+ * Tests for {@see \KawaiiGherkin\Formatter\Background}
+ *
+ * @author Jefersson Nathan <malukenho@phpse.net>
+ * @license MIT
+ *
+ * @group Coverage
+ */
 final class BackgroundTest extends \PHPUnit_Framework_TestCase
 {
     /**
