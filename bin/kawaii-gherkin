@@ -1,1 +1,27 @@
 <?php
+
+require __DIR__ . '/../vendor/autoload.php';
+
+use Symfony\Component\Console\Application;
+
+$keywords = new Behat\Gherkin\Keywords\ArrayKeywords([
+    'en' => [
+        'feature'          => 'Feature',
+        'background'       => 'Background',
+        'scenario'         => 'Scenario',
+        'scenario_outline' => 'Scenario Outline|Scenario Template',
+        'examples'         => 'Examples|Scenarios',
+        'given'            => 'Given',
+        'when'             => 'When',
+        'then'             => 'Then',
+        'and'              => 'And',
+        'but'              => 'But'
+    ]
+]);
+
+$lexer  = new Behat\Gherkin\Lexer($keywords);
+$parser = new Behat\Gherkin\Parser($lexer);
+
+$application = new Application();
+$application->add(new \KawaiiGherkin\Command\FixGherkinCodeStyle(null, $parser));
+$application->run();
