@@ -20,12 +20,20 @@ final class FixGherkinCodeStyle extends Command
      */
     private $parser;
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param Parser $parser
+     */
     public function __construct($name, Parser $parser)
     {
         parent::__construct('Kawaii Gherkin');
         $this->parser = $parser;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function configure()
     {
         $this
@@ -38,6 +46,9 @@ final class FixGherkinCodeStyle extends Command
             );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $directory = $input->getArgument('directory');
@@ -60,10 +71,10 @@ final class FixGherkinCodeStyle extends Command
             $background         = new Background();
             $scenario           = new Scenario();
 
-            $formatted = $tagFormatter->format($feature->getTags()) . PHP_EOL;
+            $formatted = $feature->hasTags() ? $tagFormatter->format($feature->getTags()) . PHP_EOL : '';
             $formatted .= $featureDescription->format($feature->getTitle(), explode(PHP_EOL, $feature->getDescription())) . PHP_EOL . PHP_EOL;
-            $formatted .= $background->format($feature->getBackground()) . PHP_EOL . PHP_EOL;
-            $formatted .= $scenario->format(...$feature->getScenarios());
+            $formatted .= $feature->hasBackground() ? $background->format($feature->getBackground()) . PHP_EOL . PHP_EOL : '';
+            $formatted .= $feature->hasScenarios() ? $scenario->format(...$feature->getScenarios()) : '';
 
             $filePointer = $file->openFile('w');
             $filePointer->fwrite($formatted);

@@ -18,7 +18,7 @@ final class Scenario
      */
     public function format(ScenarioInterface ...$scenarios)
     {
-        return implode(
+        return rtrim(implode(
             '',
             array_map(
                 function (ScenarioInterface $scenario) {
@@ -29,7 +29,7 @@ final class Scenario
                 },
                 $scenarios
             )
-        );
+        )) . PHP_EOL;
     }
 
     private function getTags(ScenarioInterface $scenario)
@@ -44,7 +44,7 @@ final class Scenario
     private function getScenarioDescription(ScenarioInterface $scenario)
     {
         return
-            $this->indent()
+            ($scenario->hasTags() ? $this->indent() : '')
             . sprintf(
                 '%s: %s%s',
                 trim($scenario->getKeyword()),

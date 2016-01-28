@@ -37,7 +37,6 @@ class ScenarioTest extends \PHPUnit_Framework_TestCase
          When I go to a php events
          Then I start to become a Kawaii guy
 
-
 EOS;
 
         $tableNode  = new TableNode([

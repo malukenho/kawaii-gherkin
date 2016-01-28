@@ -23,7 +23,7 @@ final class Background
                 /* @var $argument TableNode */
                 foreach ($step->getArguments() as $argument) {
                     if ($argument->getNodeType() === 'Table') {
-                            $longDesc .= implode('', array_map(
+                        $longDesc .= implode('', array_map(
                                 function ($arguments) use ($indentationAlign) {
                                     return str_repeat(' ', $indentationAlign + 4) . trim($arguments) . PHP_EOL;
                                 },
@@ -45,6 +45,6 @@ final class Background
      */
     private function getBackgroundShortDescription(BackgroundNode $background)
     {
-        return sprintf('%s: %s', trim($background->getKeyword()), trim($background->getTitle()));
+        return trim(sprintf('%s: %s', trim($background->getKeyword()), trim($background->getTitle())));
     }
 }
