@@ -49,6 +49,7 @@ if (! defined('COMPOSER_INSTALLED')) {
 
 require COMPOSER_INSTALLED;
 
+// TODO: get this parser by a file
 $keywords = new Behat\Gherkin\Keywords\ArrayKeywords([
     'en' => [
         'feature'          => 'Feature',
@@ -69,5 +70,6 @@ $parser = new Behat\Gherkin\Parser($lexer);
 
 $application = new Application();
 $application->add(new \KawaiiGherkin\Command\FixGherkinCodeStyle(null, $parser));
+$application->add(new \KawaiiGherkin\Command\CheckGherkinCodeStyle(null, $parser));
 $application->setName('Kawaii Gherkin');
 $application->run();
