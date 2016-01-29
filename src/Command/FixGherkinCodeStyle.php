@@ -80,6 +80,7 @@ final class FixGherkinCodeStyle extends Command
 
         $output->writeln('');
         $output->writeln('Finding files on <info>' . $directory . '</info>');
+        $output->writeln('');
 
         /* @var $file \Symfony\Component\Finder\SplFileInfo */
         foreach ($finder as $file) {
@@ -99,7 +100,6 @@ final class FixGherkinCodeStyle extends Command
             $filePointer = $file->openFile('w');
             $filePointer->fwrite($formatted);
 
-            $output->writeln('');
             $output->writeln('<info>' . $file->getRealpath() . '</info>');
         }
     }
