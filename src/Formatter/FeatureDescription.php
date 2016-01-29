@@ -22,16 +22,15 @@ namespace KawaiiGherkin\Formatter;
  * @author Jefersson Nathan  <malukenho@phpse.net>
  * @license MIT
  */
-final class FeatureDescription
+final class FeatureDescription extends AbstractFormatter
 {
-    public function format($shortDescription, array $descriptionLines, $indentation = 4)
+    public function format($shortDescription, array $descriptionLines)
     {
-        $indentation = str_repeat(' ', $indentation);
         $shortDesc   = 'Feature: ' . $shortDescription . PHP_EOL;
         $longDesc    =  implode(
             array_map(
-                function ($descriptionLine) use ($indentation) {
-                    return $indentation . trim($descriptionLine) . PHP_EOL;
+                function ($descriptionLine) {
+                    return $this->indent() . trim($descriptionLine) . PHP_EOL;
                 },
                 $descriptionLines
             )
