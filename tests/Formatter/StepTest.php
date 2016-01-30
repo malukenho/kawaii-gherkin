@@ -165,6 +165,6 @@ EOS;
             1
         );
 
-        self::assertSame($expected, $this->formatter->format(...$scenario->getSteps()));
+        self::assertSame($expected, $this->formatter->format($scenario->getSteps()));
     }
 }

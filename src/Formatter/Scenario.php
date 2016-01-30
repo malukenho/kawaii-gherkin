@@ -38,11 +38,11 @@ final class Scenario extends AbstractFormatter
     }
 
     /**
-     * @param \Behat\Gherkin\Node\ScenarioInterface[] ...$scenarios
+     * @param \Behat\Gherkin\Node\ScenarioInterface[] $scenarios
      *
      * @return string
      */
-    public function format(ScenarioInterface ...$scenarios)
+    public function format(array $scenarios)
     {
         return rtrim(implode(
             array_map(
@@ -92,7 +92,7 @@ final class Scenario extends AbstractFormatter
 
         $step = new Step($this->align);
 
-        return $step->format(...$scenario->getSteps()) . PHP_EOL;
+        return $step->format($scenario->getSteps()) . PHP_EOL;
     }
 
     private function getExamples($scenario)

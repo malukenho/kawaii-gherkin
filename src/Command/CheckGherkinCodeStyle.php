@@ -125,7 +125,7 @@ final class CheckGherkinCodeStyle extends Command
             $formatted = $feature->hasTags() ? $tagFormatter->format($feature->getTags()) . PHP_EOL : '';
             $formatted .= $featureDescription->format($feature->getTitle(), explode(PHP_EOL, $feature->getDescription())) . PHP_EOL . PHP_EOL;
             $formatted .= $feature->hasBackground() ? $background->format($feature->getBackground()) . PHP_EOL : '';
-            $formatted .= $feature->hasScenarios() ? $scenario->format(...$feature->getScenarios()) : '';
+            $formatted .= $feature->hasScenarios() ? $scenario->format($feature->getScenarios()) : '';
 
             if ($formatted !== $contentWithoutComments) {
 

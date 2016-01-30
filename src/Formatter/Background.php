@@ -46,7 +46,7 @@ final class Background extends AbstractFormatter
         $shortDesc = $this->getBackgroundShortDescription($background) . PHP_EOL;
 
         $step  = new Step($this->align);
-        $steps = $step->format(...$background->getSteps());
+        $steps = $step->format($background->getSteps());
 
         return $this->indent() . $shortDesc . $steps;
     }
