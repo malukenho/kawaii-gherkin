@@ -22,6 +22,7 @@ use Behat\Gherkin\Parser;
 use KawaiiGherkin\Formatter\Background;
 use KawaiiGherkin\Formatter\FeatureDescription;
 use KawaiiGherkin\Formatter\Scenario;
+use KawaiiGherkin\Formatter\Step;
 use KawaiiGherkin\Formatter\Tags;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -63,7 +64,13 @@ final class FixGherkinCodeStyle extends Command
                 'directory',
                 InputArgument::REQUIRED,
                 'Path to find *.feature files'
-            );
+            )
+            ->addArgument(
+                'align',
+                InputArgument::OPTIONAL,
+                'Side to align statement (right or left). Default right'
+            )
+        ;
     }
 
     /**
@@ -71,6 +78,10 @@ final class FixGherkinCodeStyle extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $align = $input->getArgument('align') === Step::ALIGN_TO_LEFT
+            ? Step::ALIGN_TO_LEFT
+            : Step::ALIGN_TO_RIGHT;
+
         $directory = $input->getArgument('directory');
         $finder    = new Finder();
         $finder
@@ -89,8 +100,8 @@ final class FixGherkinCodeStyle extends Command
 
             $tagFormatter       = new Tags();
             $featureDescription = new FeatureDescription();
-            $background         = new Background();
-            $scenario           = new Scenario();
+            $background         = new Background($align);
+            $scenario           = new Scenario($align);
 
             $formatted = $feature->hasTags() ? $tagFormatter->format($feature->getTags()) . PHP_EOL : '';
             $formatted .= $featureDescription->format($feature->getTitle(), explode(PHP_EOL, $feature->getDescription())) . PHP_EOL . PHP_EOL;
