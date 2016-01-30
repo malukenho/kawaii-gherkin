@@ -80,7 +80,7 @@ EOS;
             1
         );
 
-        self::assertSame($expected, $this->formatter->format(...$scenario->getSteps()));
+        self::assertSame($expected, $this->formatter->format($scenario->getSteps()));
     }
 
     public function testCanFormatStepsToTheLeft()
@@ -118,7 +118,7 @@ EOS;
             1
         );
 
-        self::assertSame($expected, $this->formatter->format(...$scenario->getSteps()));
+        self::assertSame($expected, $this->formatter->format($scenario->getSteps()));
     }
 
     public function testCanFormatStepsWithPyString()

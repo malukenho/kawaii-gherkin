@@ -81,7 +81,7 @@ EOS;
             1
         );
 
-        self::assertSame($expected, $this->formatter->format($scenario));
+        self::assertSame($expected, $this->formatter->format([$scenario]));
     }
 
     public function testCanFormatScenarioWithoutTags()
@@ -104,7 +104,7 @@ EOS;
             1
         );
 
-        self::assertSame($expected, $this->formatter->format($scenario));
+        self::assertSame($expected, $this->formatter->format([$scenario]));
     }
 
     public function testCanFormatMultiLineDescription()
@@ -130,6 +130,6 @@ EOS;
             1
         );
 
-        self::assertSame($expected, $this->formatter->format($scenario));
+        self::assertSame($expected, $this->formatter->format([$scenario]));
     }
 }
