@@ -7,10 +7,17 @@ php:
   - 7.0
   - hhvm
 
-script:
+before:
   - composer self-update
   - composer install
+
+script:
+  - ./vendor/bin/phpunit --disallow-test-output --report-useless-tests --coverage-clover ./clover.xml
+  - ./vendor/bin/phpunit --disallow-test-output --report-useless-tests
   - ./vendor/bin/phpunit
+
+after_script:
+  - sh .travis.coverage.sh
 
 matrix:
   allow_failures:
