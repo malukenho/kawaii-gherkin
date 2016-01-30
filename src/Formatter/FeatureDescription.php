@@ -24,8 +24,15 @@ namespace KawaiiGherkin\Formatter;
  */
 final class FeatureDescription extends AbstractFormatter
 {
+    /**
+     * @param string $shortDescription
+     * @param array  $descriptionLines
+     *
+     * @return string
+     */
     public function format($shortDescription, array $descriptionLines)
     {
+        // TODO: get keyword here, can't say `feature` hardcoded
         $shortDesc   = 'Feature: ' . $shortDescription . PHP_EOL;
         $longDesc    =  implode(
             array_map(
