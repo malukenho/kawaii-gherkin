@@ -5,7 +5,7 @@ Kawaii Gherkin
 [![Code Coverage](https://scrutinizer-ci.com/g/malukenho/kawaii-gherkin/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/malukenho/kawaii-gherkin/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/malukenho/kawaii-gherkin/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/malukenho/kawaii-gherkin/?branch=master)
 
-**Kawaii Gherkin** is a small tool to fix gherkin code styles. 
+**Kawaii Gherkin** is a small tool to fix and verify gherkin code style. 
 
 ### Installing
 
@@ -13,12 +13,20 @@ Kawaii Gherkin
 $ composer require --dev malukenho/kawaii-gherkin:dev-master
 ```
 
+### Analyzing code
+
+To analyze code style, simple run:
+
+```sh
+$ vendor/bin/kawaii-gherkin kawaii:gherkin:check <directory> <align>
+```
+
 ### Fixing code
 
 To fix code style, simple run:
 
 ```sh
-$ vendor/bin/kawaii-gherkin kawaii:gherkin <directory>
+$ vendor/bin/kawaii-gherkin kawaii:gherkin <directory> <align>
 ```
 
 # Example
