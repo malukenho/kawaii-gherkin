@@ -19,43 +19,36 @@
 namespace KawaiiGherkin\Formatter;
 
 use Behat\Gherkin\Node\BackgroundNode;
-use Behat\Gherkin\Node\TableNode;
 
 /**
- * @author Jefersson Nathan  <malukenho@phpse.net>
+ * @author  Jefersson Nathan  <malukenho@phpse.net>
  * @license MIT
  */
-final class Background
+final class Background extends AbstractFormatter
 {
-    public function format(BackgroundNode $background, $indentation = 4)
+    private $align;
+
+    /**
+     * @param string $align
+     */
+    public function __construct($align = Step::ALIGN_TO_RIGHT)
     {
-        $indentationAlign = $indentation * 2;
+        $this->align = $align;
+    }
 
-        $shortDesc   = $this->getBackgroundShortDescription($background) . PHP_EOL;
-        $longDesc    = '';
+    /**
+     * @param BackgroundNode $background
+     *
+     * @return string
+     */
+    public function format(BackgroundNode $background)
+    {
+        $shortDesc = $this->getBackgroundShortDescription($background) . PHP_EOL;
 
-        foreach ($background->getSteps() as $step) {
-            $indentSpaces =  $indentationAlign - strlen(trim($step->getKeyword())) + 1;
-            $longDesc .= str_repeat(' ', $indentSpaces + $indentation) .
-                trim($step->getKeyword()) . ' ' . trim($step->getText()) . PHP_EOL;
+        $step  = new Step($this->align);
+        $steps = $step->format(...$background->getSteps());
 
-            if ($step->hasArguments()) {
-                /* @var $argument TableNode */
-                foreach ($step->getArguments() as $argument) {
-                    if ($argument->getNodeType() === 'Table') {
-                        $longDesc .= implode('', array_map(
-                                function ($arguments) use ($indentationAlign) {
-                                    return str_repeat(' ', $indentationAlign + 4) . trim($arguments) . PHP_EOL;
-                                },
-                                explode("\n", $argument->getTableAsString())
-                            )
-                        );
-                    }
-                }
-            }
-        }
-
-        return str_repeat(' ', $indentation) . $shortDesc . rtrim($longDesc);
+        return $this->indent() . $shortDesc . $steps;
     }
 
     /**
