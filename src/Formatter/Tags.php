@@ -22,11 +22,12 @@ namespace KawaiiGherkin\Formatter;
  * @author Jefersson Nathan  <malukenho@phpse.net>
  * @license MIT
  */
-final class Tags
+final class Tags extends AbstractFormatter
 {
     public function format(array $tags)
     {
-        return implode(' ',
+        return implode(
+            ' ',
             array_map(
                 function ($tag) {
                     return '@' . trim($tag);
