@@ -41,7 +41,7 @@ final class Example extends AbstractFormatter
         return implode(
             array_merge(
                 [
-                    PHP_EOL . $this->indent(self::INDENTATION * 2) . rtrim($scenario->getExampleTable()->getKeyword()) . ':' . PHP_EOL,
+                    $this->indent(self::INDENTATION * 2) . rtrim($scenario->getExampleTable()->getKeyword()) . ':' . PHP_EOL,
                 ],
                 array_map(
                     function ($arguments) {

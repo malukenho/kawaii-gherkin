@@ -51,7 +51,6 @@ final class ExampleTest extends \PHPUnit_Framework_TestCase
     public function testCanGenerateExamplesTableProperly()
     {
         $expected = <<<EOS
-
         Examples:
           | url                  |
           | github.com/malukenho |

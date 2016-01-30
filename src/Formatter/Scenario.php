@@ -68,14 +68,20 @@ final class Scenario extends AbstractFormatter
 
     private function getScenarioDescription(ScenarioInterface $scenario)
     {
-        return
-            ($scenario->hasTags() ? $this->indent() : '')
-            . sprintf(
-                '%s: %s%s',
-                trim($scenario->getKeyword()),
-                trim($scenario->getTitle()),
-                PHP_EOL
-            );
+        $titleLines    = $this->getTitleLines($scenario);
+        $scenarioTitle = trim($scenario->getKeyword() . ': ' . array_shift($titleLines));
+
+        if ($scenario->hasTags()) {
+            $scenarioTitle = $this->indent() . $scenarioTitle;
+        }
+
+        return implode(
+            PHP_EOL . $this->indent(12),
+            array_merge(
+                [$scenarioTitle],
+                $titleLines
+            )
+        ) . PHP_EOL;
     }
 
     private function getSteps(ScenarioInterface $scenario)
@@ -85,15 +91,28 @@ final class Scenario extends AbstractFormatter
         }
 
         $step = new Step($this->align);
+
         return $step->format(...$scenario->getSteps()) . PHP_EOL;
     }
 
     private function getExamples($scenario)
     {
-        if (!$scenario instanceof OutlineNode) {
+        if (! $scenario instanceof OutlineNode) {
             return;
         }
 
         return (new Example())->format($scenario);
+    }
+
+    /**
+     * @param ScenarioInterface $scenario
+     * @return array
+     */
+    private function getTitleLines(ScenarioInterface $scenario)
+    {
+        return array_map(
+            'trim',
+            explode(PHP_EOL, $scenario->getTitle())
+        );
     }
 }
