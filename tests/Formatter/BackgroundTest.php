@@ -56,6 +56,7 @@ final class BackgroundTest extends \PHPUnit_Framework_TestCase
             |  nick       |  active       |
             |  malukenho  |  user allowed |
           And "malukenho" is a kawaii person
+
 EOS;
 
         $tableNode = new TableNode([

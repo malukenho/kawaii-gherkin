@@ -58,21 +58,6 @@ final class Step extends AbstractFormatter
                 $steps
             )
         );
-
-        // TODO: create a new class to deal with examples
-//        var_dump(get_class($step));
-//        if ($scenario instanceof \Behat\Gherkin\Node\OutlineNode && $scenario->hasExamples()) {
-//            /* @var $argument TableNode */
-//            $longDesc .= PHP_EOL . $this->indent(8) . rtrim($scenario->getExampleTable()->getKeyword()) . ':' . PHP_EOL;
-//
-//            $longDesc .= implode('', array_map(
-//                    function ($arguments) use ($recue) {
-//                        return $this->indent($recue + 2) . trim($arguments) . PHP_EOL;
-//                    },
-//                    explode("\n", $scenario->getExampleTable()->getTableAsString())
-//                )
-//            );
-//        }
     }
 
     /**

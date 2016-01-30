@@ -18,6 +18,7 @@
 
 namespace KawaiiGherkin\Formatter;
 
+use Behat\Gherkin\Node\OutlineNode;
 use Behat\Gherkin\Node\ScenarioInterface;
 
 /**
@@ -48,7 +49,8 @@ final class Scenario extends AbstractFormatter
                 function (ScenarioInterface $scenario) {
                     return $this->getTags($scenario)
                     . $this->getScenarioDescription($scenario)
-                    . $this->getSteps($scenario);
+                    . $this->getSteps($scenario)
+                    . $this->getExamples($scenario);
                 },
                 $scenarios
             )
@@ -84,20 +86,14 @@ final class Scenario extends AbstractFormatter
 
         $step = new Step($this->align);
         return $step->format(...$scenario->getSteps()) . PHP_EOL;
+    }
 
-//        if ($scenario instanceof \Behat\Gherkin\Node\OutlineNode && $scenario->hasExamples()) {
-//            /* @var $argument TableNode */
-//            $longDesc .= PHP_EOL . $this->indent(8) . rtrim($scenario->getExampleTable()->getKeyword()) . ':' . PHP_EOL;
-//
-//            $longDesc .= implode('', array_map(
-//                    function ($arguments) use ($recue) {
-//                        return $this->indent($recue + 2) . trim($arguments) . PHP_EOL;
-//                    },
-//                    explode("\n", $scenario->getExampleTable()->getTableAsString())
-//                )
-//            );
-//        }
-//
-//        return $longDesc . PHP_EOL;
+    private function getExamples($scenario)
+    {
+        if (!$scenario instanceof OutlineNode) {
+            return;
+        }
+
+        return (new Example())->format($scenario);
     }
 }
