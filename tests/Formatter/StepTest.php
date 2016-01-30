@@ -129,12 +129,12 @@ EOS;
         Given I am a Java programmer
         And I am not Kawaii
         When I start to contribute to a php project:
-            """
-            This is a pyString
-            Multi-line :D
+        """
+          This is a pyString
+          Multi-line :D
 
-            Meh... kawaii hu!?
-            """
+          Meh... kawaii hu!?
+        """
         Then I start to love php
         When I go to a php events
         Then I start to become a Kawaii guy
