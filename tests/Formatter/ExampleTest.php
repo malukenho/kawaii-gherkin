@@ -20,18 +20,15 @@ namespace KawaiiGherkinTest\Formatter;
 
 use Behat\Gherkin\Node\ExampleTableNode;
 use Behat\Gherkin\Node\OutlineNode;
-use Behat\Gherkin\Node\ScenarioNode;
-use Behat\Gherkin\Node\StepNode;
-use Behat\Gherkin\Node\TableNode;
 use KawaiiGherkin\Formatter\Example;
 
 /**
  * Tests for {@see \KawaiiGherkin\Formatter\Example}
  *
  * @author Jefersson Nathan <malukenho@phpse.net>
- * @license MIT
- *
+ * @covers \KawaiiGherkin\Formatter\Example
  * @group Coverage
+ * @license MIT
  */
 final class ExampleTest extends \PHPUnit_Framework_TestCase
 {

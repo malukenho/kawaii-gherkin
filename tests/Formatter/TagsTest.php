@@ -24,9 +24,9 @@ use KawaiiGherkin\Formatter\Tags;
  * Tests for {@see \KawaiiGherkin\Formatter\Tags}
  *
  * @author Jefersson Nathan <malukenho@phpse.net>
- * @license MIT
- *
+ * @covers \KawaiiGherkin\Formatter\Tags
  * @group Coverage
+ * @license MIT
  */
 final class TagsTest extends \PHPUnit_Framework_TestCase
 {

@@ -28,9 +28,9 @@ use KawaiiGherkin\Formatter\Step;
  * Tests for {@see \KawaiiGherkin\Formatter\Step}
  *
  * @author Jefersson Nathan <malukenho@phpse.net>
- * @license MIT
- *
+ * @covers \KawaiiGherkin\Formatter\Step
  * @group Coverage
+ * @license MIT
  */
 final class StepTest extends \PHPUnit_Framework_TestCase
 {

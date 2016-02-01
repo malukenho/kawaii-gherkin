@@ -28,9 +28,9 @@ use Prophecy\Argument;
  * Tests for {@see \KawaiiGherkin\Formatter\Background}
  *
  * @author Jefersson Nathan <malukenho@phpse.net>
+ * @covers \KawaiiGherkin\Formatter\Background
+ * @group  Coverage
  * @license MIT
- *
- * @group Coverage
  */
 final class BackgroundTest extends \PHPUnit_Framework_TestCase
 {
@@ -59,7 +59,7 @@ final class BackgroundTest extends \PHPUnit_Framework_TestCase
 
 EOS;
 
-        $tableNode = new TableNode([
+        $tableNode  = new TableNode([
             [' nick ', ' active '],
             [' malukenho ', ' user allowed'],
         ]);

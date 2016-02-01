@@ -29,10 +29,10 @@ use KawaiiGherkin\Formatter\Scenario;
  * Tests for {@see \KawaiiGherkin\Formatter\Scenario}
  *
  * @author Jefersson Nathan <malukenho@phpse.net>
- * @license MIT
- *
+ * @covers \KawaiiGherkin\Formatter\Scenario
  * @group Coverage
- */
+ * @license MIT
+*/
 final class ScenarioTest extends \PHPUnit_Framework_TestCase
 {
     /**
