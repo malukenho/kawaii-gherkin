@@ -32,7 +32,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 
 /**
- * @author Jefersson Nathan  <malukenho@phpse.net>
+ * @author  Jefersson Nathan  <malukenho@phpse.net>
  * @license MIT
  */
 final class CheckGherkinCodeStyle extends Command
@@ -47,7 +47,7 @@ final class CheckGherkinCodeStyle extends Command
      *
      * @param Parser $parser
      */
-    public function __construct($name,  $parser)
+    public function __construct($name, $parser)
     {
         parent::__construct('Kawaii Gherkin');
         $this->parser = $parser;
@@ -70,8 +70,7 @@ final class CheckGherkinCodeStyle extends Command
                 'align',
                 InputArgument::OPTIONAL,
                 'Side to align statement (right or left). Default right'
-            )
-        ;
+            );
     }
 
     /**
@@ -90,16 +89,54 @@ final class CheckGherkinCodeStyle extends Command
             ->in($directory)
             ->name('*.feature');
 
-        $output->writeln('');
-        $output->writeln('Finding files on <info>' . $directory . '</info>');
-        $output->writeln('');
+        $output->writeln("\nFinding files on <info>" . $directory . "</info>\n");
 
         /* @var $file \Symfony\Component\Finder\SplFileInfo */
         foreach ($finder as $file) {
 
-            $oldContent = $file->getContents();
+            $fileContent            = $file->getContents();
+            $contentWithoutComments = $this->removeComments($fileContent);
 
-            $contentWithoutComments = implode(
+            $feature            = $this->parser->parse($fileContent);
+            $tagFormatter       = new Tags();
+            $featureDescription = new FeatureDescription();
+            $background         = new Background($align);
+            $scenario           = new Scenario($align);
+
+            $formatted = $feature->hasTags() ? $tagFormatter->format($feature->getTags()) . PHP_EOL : '';
+            $formatted .= $featureDescription->format($feature->getTitle(), explode(PHP_EOL, $feature->getDescription())) . PHP_EOL . PHP_EOL;
+            $formatted .= $feature->hasBackground() ? $background->format($feature->getBackground()) . PHP_EOL : '';
+            $formatted .= $feature->hasScenarios() ? $scenario->format($feature->getScenarios()) : '';
+
+            if ($formatted !== $contentWithoutComments) {
+
+                if (! defined('FAILED')) {
+                    define('FAILED', true);
+                }
+
+                $diff = new Differ("--- Original\n+++ Expected\n", false);
+
+                $output->writeln('<error>Wrong style: ' . $file->getRealPath() . '</error>');
+                $output->writeln($diff->diff($contentWithoutComments, $formatted));
+            }
+        }
+
+        if (defined('FAILED')) {
+            return 1;
+        }
+
+        $output->writeln('<bg=green;fg=white>     Everything is OK!     </>');
+    }
+
+    /**
+     * @param string $fileContent
+     *
+     * @return string
+     */
+    private function removeComments($fileContent)
+    {
+        return rtrim(
+            implode(
                 array_filter(
                     array_map(
                         function ($line) {
@@ -109,42 +146,10 @@ final class CheckGherkinCodeStyle extends Command
 
                             return rtrim($line) . PHP_EOL;
                         },
-                        explode("\n", $oldContent)
+                        explode("\n", $fileContent)
                     )
                 )
-            );
-
-            $contentWithoutComments = rtrim($contentWithoutComments) . PHP_EOL;
-
-            $feature            = $this->parser->parse($oldContent);
-            $tagFormatter       = new Tags();
-            $featureDescription = new FeatureDescription();
-            $background         = new Background($align);
-            $scenario           = new Scenario($align);
-
-            $formatted = $feature->hasTags() ? $tagFormatter->format($feature->getTags()) . PHP_EOL : '';
-            $formatted .= $featureDescription->format($feature->getTitle(), explode(PHP_EOL, $feature->getDescription())) . PHP_EOL . PHP_EOL;
-            $formatted .= $feature->hasBackground() ? $background->format($feature->getBackground()) . PHP_EOL : '';
-            $formatted .= $feature->hasScenarios() ? $scenario->format(...$feature->getScenarios()) : '';
-
-            if ($formatted !== $contentWithoutComments) {
-
-                if (!defined('FAILED')) {
-                    define('FAILED', true);
-                }
-
-                $diff = new Differ("--- Original\n+++ Expected\n", false);
-
-                $output->writeln('<error>How bad: ' . $file->getRealPath() . '</error>');
-                $output->writeln($diff->diff($contentWithoutComments, $formatted));
-            }
-        }
-
-        if (defined('FAILED')) {
-            $output->writeln("\n<bg=red;fg=white>     You can use the kawaii:gherkin to fix the errors     </>");
-            exit(1);
-        } else {
-            $output->writeln('<bg=green;fg=white>     Everything is OK!     </>');
-        }
+            )
+        ) . PHP_EOL;
     }
 }

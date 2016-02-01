@@ -44,11 +44,11 @@ final class Step extends AbstractFormatter
     }
 
     /**
-     * @param \Behat\Gherkin\Node\StepNode[] ...$steps
+     * @param \Behat\Gherkin\Node\StepNode[] $steps
      *
      * @return string
      */
-    public function format(StepNode ...$steps)
+    public function format(array $steps)
     {
         return implode(
             array_map(

@@ -69,8 +69,7 @@ final class FixGherkinCodeStyle extends Command
                 'align',
                 InputArgument::OPTIONAL,
                 'Side to align statement (right or left). Default right'
-            )
-        ;
+            );
     }
 
     /**
@@ -96,7 +95,8 @@ final class FixGherkinCodeStyle extends Command
         /* @var $file \Symfony\Component\Finder\SplFileInfo */
         foreach ($finder as $file) {
 
-            $feature = $this->parser->parse(file_get_contents($file->getRealpath()));
+            $fileContent = $file->getContents();
+            $feature     = $this->parser->parse($fileContent);
 
             $tagFormatter       = new Tags();
             $featureDescription = new FeatureDescription();
@@ -106,7 +106,7 @@ final class FixGherkinCodeStyle extends Command
             $formatted = $feature->hasTags() ? $tagFormatter->format($feature->getTags()) . PHP_EOL : '';
             $formatted .= $featureDescription->format($feature->getTitle(), explode(PHP_EOL, $feature->getDescription())) . PHP_EOL . PHP_EOL;
             $formatted .= $feature->hasBackground() ? $background->format($feature->getBackground()) . PHP_EOL . PHP_EOL : '';
-            $formatted .= $feature->hasScenarios() ? $scenario->format(...$feature->getScenarios()) : '';
+            $formatted .= $feature->hasScenarios() ? $scenario->format($feature->getScenarios()) : '';
 
             $filePointer = $file->openFile('w');
             $filePointer->fwrite($formatted);

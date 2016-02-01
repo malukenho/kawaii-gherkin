@@ -24,9 +24,9 @@ use KawaiiGherkin\Formatter\FeatureDescription;
  * Tests for {@see \KawaiiGherkin\Formatter\FeatureDescription}
  *
  * @author Jefersson Nathan <malukenho@phpse.net>
- * @license MIT
- *
+ * @covers \KawaiiGherkin\Formatter\FeatureDescription
  * @group Coverage
+ * @license MIT
  */
 final class FeatureDescriptionTest extends \PHPUnit_Framework_TestCase
 {
