@@ -60,7 +60,7 @@ final class CheckGherkinCodeStyle extends Command
     {
         $this
             ->setName('kawaii:gherkin:check')
-            ->setDescription('Fix gherkin code style')
+            ->setDescription('Find wrong gherkin code styled')
             ->addArgument(
                 'directory',
                 InputArgument::REQUIRED,
