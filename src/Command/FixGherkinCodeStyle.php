@@ -69,8 +69,7 @@ final class FixGherkinCodeStyle extends Command
                 'align',
                 InputArgument::OPTIONAL,
                 'Side to align statement (right or left). Default right'
-            )
-        ;
+            );
     }
 
     /**
@@ -96,7 +95,8 @@ final class FixGherkinCodeStyle extends Command
         /* @var $file \Symfony\Component\Finder\SplFileInfo */
         foreach ($finder as $file) {
 
-            $feature = $this->parser->parse(file_get_contents($file->getRealpath()));
+            $fileContent = $file->getContents();
+            $feature     = $this->parser->parse($fileContent);
 
             $tagFormatter       = new Tags();
             $featureDescription = new FeatureDescription();

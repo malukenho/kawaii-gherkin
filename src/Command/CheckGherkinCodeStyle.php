@@ -32,7 +32,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 
 /**
- * @author Jefersson Nathan  <malukenho@phpse.net>
+ * @author  Jefersson Nathan  <malukenho@phpse.net>
  * @license MIT
  */
 final class CheckGherkinCodeStyle extends Command
@@ -47,7 +47,7 @@ final class CheckGherkinCodeStyle extends Command
      *
      * @param Parser $parser
      */
-    public function __construct($name,  $parser)
+    public function __construct($name, $parser)
     {
         parent::__construct('Kawaii Gherkin');
         $this->parser = $parser;
@@ -70,8 +70,7 @@ final class CheckGherkinCodeStyle extends Command
                 'align',
                 InputArgument::OPTIONAL,
                 'Side to align statement (right or left). Default right'
-            )
-        ;
+            );
     }
 
     /**
@@ -90,33 +89,15 @@ final class CheckGherkinCodeStyle extends Command
             ->in($directory)
             ->name('*.feature');
 
-        $output->writeln('');
-        $output->writeln('Finding files on <info>' . $directory . '</info>');
-        $output->writeln('');
+        $output->writeln("\nFinding files on <info>" . $directory . "</info>\n");
 
         /* @var $file \Symfony\Component\Finder\SplFileInfo */
         foreach ($finder as $file) {
 
-            $oldContent = $file->getContents();
+            $fileContent            = $file->getContents();
+            $contentWithoutComments = $this->removeComments($fileContent);
 
-            $contentWithoutComments = implode(
-                array_filter(
-                    array_map(
-                        function ($line) {
-                            if (0 === mb_strpos(ltrim($line), '#')) {
-                                return '';
-                            }
-
-                            return rtrim($line) . PHP_EOL;
-                        },
-                        explode("\n", $oldContent)
-                    )
-                )
-            );
-
-            $contentWithoutComments = rtrim($contentWithoutComments) . PHP_EOL;
-
-            $feature            = $this->parser->parse($oldContent);
+            $feature            = $this->parser->parse($fileContent);
             $tagFormatter       = new Tags();
             $featureDescription = new FeatureDescription();
             $background         = new Background($align);
@@ -129,22 +110,46 @@ final class CheckGherkinCodeStyle extends Command
 
             if ($formatted !== $contentWithoutComments) {
 
-                if (!defined('FAILED')) {
+                if (! defined('FAILED')) {
                     define('FAILED', true);
                 }
 
                 $diff = new Differ("--- Original\n+++ Expected\n", false);
 
-                $output->writeln('<error>How bad: ' . $file->getRealPath() . '</error>');
+                $output->writeln('<error>Wrong style: ' . $file->getRealPath() . '</error>');
                 $output->writeln($diff->diff($contentWithoutComments, $formatted));
             }
         }
 
         if (defined('FAILED')) {
-            $output->writeln("\n<bg=red;fg=white>     You can use the kawaii:gherkin to fix the errors     </>");
-            exit(1);
-        } else {
-            $output->writeln('<bg=green;fg=white>     Everything is OK!     </>');
+            return 1;
         }
+
+        $output->writeln('<bg=green;fg=white>     Everything is OK!     </>');
+    }
+
+    /**
+     * @param string $fileContent
+     *
+     * @return string
+     */
+    private function removeComments($fileContent)
+    {
+        return rtrim(
+            implode(
+                array_filter(
+                    array_map(
+                        function ($line) {
+                            if (0 === mb_strpos(ltrim($line), '#')) {
+                                return '';
+                            }
+
+                            return rtrim($line) . PHP_EOL;
+                        },
+                        explode("\n", $fileContent)
+                    )
+                )
+            )
+        ) . PHP_EOL;
     }
 }
