@@ -68,4 +68,18 @@ EOS;
 
         self::assertSame($expected, $this->formatter->format($outlineNode));
     }
+
+    public function testShouldReturnVoidIfThereIsNoExample()
+    {
+        $outlineNode = new OutlineNode(
+            '',
+            [],
+            [],
+            new ExampleTableNode([], 'Examples'),
+            'Scenario Outline',
+            1
+        );
+
+        self::assertNull($this->formatter->format($outlineNode));
+    }
 }

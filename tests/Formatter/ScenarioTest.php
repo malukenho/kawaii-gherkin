@@ -18,6 +18,8 @@
 
 namespace KawaiiGherkinTest\Formatter;
 
+use Behat\Gherkin\Node\ExampleTableNode;
+use Behat\Gherkin\Node\OutlineNode;
 use Behat\Gherkin\Node\ScenarioNode;
 use Behat\Gherkin\Node\StepNode;
 use Behat\Gherkin\Node\TableNode;
@@ -126,6 +128,54 @@ EOS;
                 new StepNode('Given', '       I am a Java programmer ', [], 1, 'Given'),
                 new StepNode('And', '  I am not Kawaii ', [], 2, 'And'),
             ],
+            'Scenario',
+            1
+        );
+
+        self::assertSame($expected, $this->formatter->format([$scenario]));
+    }
+
+    public function testShouldReturnVoidIfThereIsNoStepOnScenario()
+    {
+        $expected = <<<EOS
+    Scenario: This scenario has no steps
+
+EOS;
+
+        $scenario = new ScenarioNode(
+            "This scenario has no steps",
+            [],
+            [],
+            'Scenario',
+            1
+        );
+
+        self::assertSame($expected, $this->formatter->format([$scenario]));
+    }
+
+
+    public function testShouldCallExampleFormatterWhenExamplesIsProvided()
+    {
+        $expected = <<<EOS
+    Scenario: Working a lot
+         When I am working for <number> hours
+         Then I have to be upset
+
+        Examples:
+          | number |
+          | 10     |
+          | 12     |
+
+EOS;
+
+        $scenario = new OutlineNode(
+            "Working a lot",
+            [],
+            [
+                new StepNode('When', 'I am working for <number> hours', [], 1, 'When'),
+                new StepNode('Then', 'I have to be upset', [], 2, 'Then'),
+            ],
+            new ExampleTableNode([['number'], ['10'], ['12']], 'Examples'),
             'Scenario',
             1
         );
