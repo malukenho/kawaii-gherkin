@@ -57,6 +57,11 @@ final class Scenario extends AbstractFormatter
         )) . PHP_EOL;
     }
 
+    /**
+     * @param ScenarioInterface $scenario
+     *
+     * @return string
+     */
     private function getTags(ScenarioInterface $scenario)
     {
         if (! $scenario->hasTags()) {
@@ -66,6 +71,11 @@ final class Scenario extends AbstractFormatter
         return $this->indent() . (new Tags())->format($scenario->getTags()) . PHP_EOL;
     }
 
+    /**
+     * @param ScenarioInterface $scenario
+     *
+     * @return string
+     */
     private function getScenarioDescription(ScenarioInterface $scenario)
     {
         $titleLines    = $this->getTitleLines($scenario);
@@ -84,6 +94,11 @@ final class Scenario extends AbstractFormatter
         ) . PHP_EOL;
     }
 
+    /**
+     * @param ScenarioInterface $scenario
+     *
+     * @return string|void
+     */
     private function getSteps(ScenarioInterface $scenario)
     {
         if (! $scenario->hasSteps()) {
@@ -95,6 +110,11 @@ final class Scenario extends AbstractFormatter
         return $step->format($scenario->getSteps()) . PHP_EOL;
     }
 
+    /**
+     * @param $scenario
+     *
+     * @return string|void
+     */
     private function getExamples($scenario)
     {
         if (! $scenario instanceof OutlineNode) {
