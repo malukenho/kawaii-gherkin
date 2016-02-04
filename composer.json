@@ -1,6 +1,6 @@
 {
   "name": "malukenho/kawaii-gherkin",
-  "description": "A small library to fix annoying gherkin code style",
+  "description": "A small library to check and fix annoying gherkin code style",
   "type": "library",
   "license": "MIT",
   "homepage": "https://github.com/malukenho/kawaii-gherkin",
@@ -36,6 +36,6 @@
     "phpunit/phpunit": "^4.0"
   },
   "bin": [
-    "bin/kawaii-gherkin"
+    "bin/kawaii"
   ]
 }
