@@ -27,6 +27,7 @@ use KawaiiGherkin\Formatter\Tags;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 
@@ -58,17 +59,19 @@ final class FixGherkinCodeStyle extends Command
     protected function configure()
     {
         $this
-            ->setName('kawaii:gherkin')
+            ->setName('gherkin:fix')
             ->setDescription('Fix gherkin code style')
             ->addArgument(
                 'directory',
                 InputArgument::REQUIRED,
                 'Path to find *.feature files'
             )
-            ->addArgument(
+            ->addOption(
                 'align',
-                InputArgument::OPTIONAL,
-                'Side to align statement (right or left). Default right'
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Side to align statement (right or left). Default right',
+                'left'
             );
     }
 

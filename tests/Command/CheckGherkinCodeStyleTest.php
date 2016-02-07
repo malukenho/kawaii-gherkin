@@ -51,7 +51,7 @@ final class CheckGherkinCodeStyleTest extends \PHPUnit_Framework_TestCase
         $application = new Application($kernel);
         $application->add(new CheckGherkinCodeStyle(null, $parser));
 
-        $command       = $application->find('kawaii:gherkin:check');
+        $command       = $application->find('gherkin:check');
         $commandTester = new CommandTester($command);
         $commandTester->execute(
             [
@@ -119,7 +119,7 @@ final class CheckGherkinCodeStyleTest extends \PHPUnit_Framework_TestCase
         $application = new Application($kernel);
         $application->add(new CheckGherkinCodeStyle(null, $parser));
 
-        $command       = $application->find('kawaii:gherkin:check');
+        $command       = $application->find('gherkin:check');
         $commandTester = new CommandTester($command);
         $commandTester->execute(
             [

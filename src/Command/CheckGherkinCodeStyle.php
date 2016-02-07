@@ -28,6 +28,7 @@ use SebastianBergmann\Diff\Differ;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 
@@ -59,17 +60,19 @@ final class CheckGherkinCodeStyle extends Command
     protected function configure()
     {
         $this
-            ->setName('kawaii:gherkin:check')
+            ->setName('gherkin:check')
             ->setDescription('Find wrong gherkin code styled')
             ->addArgument(
                 'directory',
                 InputArgument::REQUIRED,
                 'Path to find *.feature files'
             )
-            ->addArgument(
+            ->addOption(
                 'align',
-                InputArgument::OPTIONAL,
-                'Side to align statement (right or left). Default right'
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Side to align statement (right or left). Default right',
+                'left'
             );
     }
 
@@ -78,7 +81,7 @@ final class CheckGherkinCodeStyle extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $align = $input->getArgument('align') === Step::ALIGN_TO_LEFT
+        $align = $input->getOption('align') === Step::ALIGN_TO_LEFT
             ? Step::ALIGN_TO_LEFT
             : Step::ALIGN_TO_RIGHT;
 
