@@ -14,7 +14,7 @@ Kawaii Gherkin
 ### Installing
 
 ```sh
-$ composer require --dev malukenho/kawaii-gherkin:dev-master
+$ composer require --dev malukenho/kawaii-gherkin
 ```
 
 ### Analyzing code
@@ -22,7 +22,7 @@ $ composer require --dev malukenho/kawaii-gherkin:dev-master
 To analyze code style, simple run:
 
 ```sh
-$ vendor/bin/kawaii-gherkin kawaii:gherkin:check <directory> <align>
+$ vendor/bin/kawaii gherkin:check [--align [right|left]] <directory>
 ```
 
 ### Fixing code
@@ -30,7 +30,7 @@ $ vendor/bin/kawaii-gherkin kawaii:gherkin:check <directory> <align>
 To fix code style, simple run:
 
 ```sh
-$ vendor/bin/kawaii-gherkin kawaii:gherkin <directory> <align>
+$ vendor/bin/kawaii gherkin:fix [--align [right|left]] <directory>
 ```
 
 # Example
