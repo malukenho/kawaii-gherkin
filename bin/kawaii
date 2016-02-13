@@ -17,6 +17,7 @@
  * and is licensed under the MIT license.
  */
 
+use PackageVersions\Versions;
 use Symfony\Component\Console\Application;
 
 $autoload = [
@@ -68,7 +69,7 @@ $keywords = new Behat\Gherkin\Keywords\ArrayKeywords([
 $lexer  = new Behat\Gherkin\Lexer($keywords);
 $parser = new Behat\Gherkin\Parser($lexer);
 
-$application = new Application('Kawaii Gherkin');
+$application = new Application('Kawaii Gherkin', Versions::getVersion('malukenho/kawaii-gherkin'));
 $application->add(new \KawaiiGherkin\Command\FixGherkinCodeStyle(null, $parser));
 $application->add(new \KawaiiGherkin\Command\CheckGherkinCodeStyle(null, $parser));
 $application->run();
