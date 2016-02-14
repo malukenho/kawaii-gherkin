@@ -18,6 +18,7 @@
 
 namespace KawaiiGherkin\Command;
 
+use Behat\Gherkin\Exception\ParserException;
 use Behat\Gherkin\Parser;
 use KawaiiGherkin\Formatter\Background;
 use KawaiiGherkin\Formatter\FeatureDescription;
@@ -78,6 +79,10 @@ final class CheckGherkinCodeStyle extends Command
 
     /**
      * {@inheritDoc}
+     *
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     * @throws ParserException
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
