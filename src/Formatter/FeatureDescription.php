@@ -18,6 +18,8 @@
 
 namespace KawaiiGherkin\Formatter;
 
+use Behat\Gherkin\Node\FeatureNode;
+
 /**
  * @author Jefersson Nathan  <malukenho@phpse.net>
  * @license MIT
@@ -25,21 +27,19 @@ namespace KawaiiGherkin\Formatter;
 final class FeatureDescription extends AbstractFormatter
 {
     /**
-     * @param string $shortDescription
-     * @param array  $descriptionLines
+     * @param FeatureNode $feature
      *
      * @return string
      */
-    public function format($shortDescription, array $descriptionLines)
+    public function format(FeatureNode $feature)
     {
-        // TODO: get keyword here, can't say `feature` hardcoded
-        $shortDesc   = 'Feature: ' . $shortDescription . PHP_EOL;
+        $shortDesc   = $feature->getKeyword() . ': ' . $feature->getTitle() . PHP_EOL;
         $longDesc    =  implode(
             array_map(
                 function ($descriptionLine) {
                     return $this->indent() . trim($descriptionLine) . PHP_EOL;
                 },
-                $descriptionLines
+                explode("\n", $feature->getDescription())
             )
         );
 
