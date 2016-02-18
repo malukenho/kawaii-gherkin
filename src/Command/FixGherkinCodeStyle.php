@@ -80,7 +80,7 @@ final class FixGherkinCodeStyle extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $align = $input->getArgument('align') === Step::ALIGN_TO_LEFT
+        $align = $input->getOption('align') === Step::ALIGN_TO_LEFT
             ? Step::ALIGN_TO_LEFT
             : Step::ALIGN_TO_RIGHT;
 
@@ -108,7 +108,7 @@ final class FixGherkinCodeStyle extends Command
 
             $formatted = $feature->hasTags() ? $tagFormatter->format($feature->getTags()) . PHP_EOL : '';
             $formatted .= $featureDescription->format($feature->getTitle(), explode(PHP_EOL, $feature->getDescription())) . PHP_EOL . PHP_EOL;
-            $formatted .= $feature->hasBackground() ? $background->format($feature->getBackground()) . PHP_EOL . PHP_EOL : '';
+            $formatted .= $feature->hasBackground() ? $background->format($feature->getBackground()) . PHP_EOL : '';
             $formatted .= $feature->hasScenarios() ? $scenario->format($feature->getScenarios()) : '';
 
             $filePointer = $file->openFile('w');
