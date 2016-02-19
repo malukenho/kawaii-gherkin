@@ -18,6 +18,7 @@
 
 namespace KawaiiGherkinTest\Formatter;
 
+use Behat\Gherkin\Node\FeatureNode;
 use KawaiiGherkin\Formatter\FeatureDescription;
 
 /**
@@ -59,6 +60,18 @@ EOS;
             '                   I have to turn me a PHP programmer',
         ];
 
-        self::assertSame($expected, $this->formatter->format($shortDescription, $longDescription));
+        $feature = new FeatureNode(
+            $shortDescription,
+            implode("\n", $longDescription),
+            [],
+            null,
+            [],
+            'Feature',
+            'en',
+            '/tmp.feature',
+            12
+        );
+
+        self::assertSame($expected, $this->formatter->format($feature));
     }
 }
