@@ -28,7 +28,6 @@
   "require": {
     "php": "~5.5|^7.0",
     "behat/gherkin": "^4.4",
-    "ocramius/package-versions": "^1.0",
     "sebastian/diff": "~1.2",
     "symfony/console": "~2.0",
     "symfony/finder": "~2.0"
