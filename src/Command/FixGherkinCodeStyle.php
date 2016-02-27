@@ -19,6 +19,7 @@
 namespace KawaiiGherkin\Command;
 
 use Behat\Gherkin\Parser;
+use KawaiiGherkin\FeatureResolve;
 use KawaiiGherkin\Formatter\Background;
 use KawaiiGherkin\Formatter\FeatureDescription;
 use KawaiiGherkin\Formatter\Scenario;
@@ -85,11 +86,7 @@ final class FixGherkinCodeStyle extends Command
             : Step::ALIGN_TO_RIGHT;
 
         $directory = $input->getArgument('directory');
-        $finder    = new Finder();
-        $finder
-            ->files()
-            ->in($directory)
-            ->name('*.feature');
+        $finder    = (new FeatureResolve($directory))->__invoke();
 
         $output->writeln('');
         $output->writeln('Finding files on <info>' . $directory . '</info>');

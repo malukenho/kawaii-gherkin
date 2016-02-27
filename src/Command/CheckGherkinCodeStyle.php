@@ -18,7 +18,9 @@
 
 namespace KawaiiGherkin\Command;
 
+use Behat\Gherkin\Exception\ParserException;
 use Behat\Gherkin\Parser;
+use KawaiiGherkin\FeatureResolve;
 use KawaiiGherkin\Formatter\Background;
 use KawaiiGherkin\Formatter\FeatureDescription;
 use KawaiiGherkin\Formatter\Scenario;
@@ -30,7 +32,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Finder\Finder;
 
 /**
  * @author  Jefersson Nathan  <malukenho@phpse.net>
@@ -78,6 +79,10 @@ final class CheckGherkinCodeStyle extends Command
 
     /**
      * {@inheritDoc}
+     *
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     * @throws ParserException
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -86,11 +91,7 @@ final class CheckGherkinCodeStyle extends Command
             : Step::ALIGN_TO_RIGHT;
 
         $directory = $input->getArgument('directory');
-        $finder    = new Finder();
-        $finder
-            ->files()
-            ->in($directory)
-            ->name('*.feature');
+        $finder    = (new FeatureResolve($directory))->__invoke();
 
         $output->writeln("\nFinding files on <info>" . $directory . "</info>\n");
 
