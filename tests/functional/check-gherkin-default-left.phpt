@@ -5,11 +5,11 @@ Check file with default diff
 
 require __DIR__ . '/init.php';
 
-$kawaiiGherkinCheck('tests/assets');
+$kawaiiGherkinCheck('tests/assets/left-aligned.feature');
 
 ?>
 --EXPECTF--
-Finding files on tests/assets
+Finding files on tests/assets/left-aligned.feature
 
 Wrong style: %A/tests/assets/left-aligned.feature
 --- Original
