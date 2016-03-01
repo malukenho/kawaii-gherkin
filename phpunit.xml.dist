@@ -16,7 +16,7 @@
         <directory>./tests</directory>
     </testsuite>
     <testsuite name="Kawaii gherkin functional tests">
-        <directory>./tests/functional</directory>
+        <directory suffix=".phpt">./tests/functional</directory>
     </testsuite>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
