@@ -123,7 +123,7 @@ final class CheckGherkinCodeStyleTest extends \PHPUnit_Framework_TestCase
         $commandTester = new CommandTester($command);
         $commandTester->execute(
             [
-                'directory' => __DIR__ . '/../assets/',
+                'directory' => __DIR__ . '/../assets/left-aligned.feature',
             ]
         );
 
