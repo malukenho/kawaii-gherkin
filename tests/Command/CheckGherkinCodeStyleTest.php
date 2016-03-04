@@ -39,13 +39,13 @@ final class CheckGherkinCodeStyleTest extends \PHPUnit_Framework_TestCase
 {
     public function testShouldReturnOkIfThereIsNoFilesFound()
     {
-        $kernel = $this->getMock(\StdClass::class);
+        $kernel = $this->getMock(\stdClass::class);
         /* @var \Behat\Gherkin\Parser|\PHPUnit_Framework_MockObject_MockObject $parser */
         $parser = $this->getMockBuilder(Parser::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $parser->expects($this->exactly(0))
+        $parser->expects(self::exactly(0))
             ->method('parse');
 
         $application = new Application($kernel);
@@ -59,12 +59,12 @@ final class CheckGherkinCodeStyleTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
-        $this->assertRegExp('/Everything is OK!/', $commandTester->getDisplay());
+        self::assertRegExp('/Everything is OK!/', $commandTester->getDisplay());
     }
 
     public function testShouldReturnErrorIfThereIsFilesWithWrongStyle()
     {
-        $kernel = $this->getMock(\StdClass::class);
+        $kernel = $this->getMock(\stdClass::class);
 
         /* @var \Behat\Gherkin\Parser|\PHPUnit_Framework_MockObject_MockObject $parser */
         $parser = $this->getMockBuilder(Parser::class)
@@ -76,23 +76,23 @@ final class CheckGherkinCodeStyleTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $feature->expects($this->once())
+        $feature->expects(self::once())
             ->method('hasTags')
             ->willReturn(true);
 
-        $feature->expects($this->once())
+        $feature->expects(self::once())
             ->method('getTags')
             ->willReturn(
                 ['users', 'another-feature', 'another-tag']
             );
 
-        $feature->expects($this->once())
+        $feature->expects(self::once())
             ->method('getTitle')
             ->willReturn(
                 'User registration'
             );
 
-        $feature->expects($this->once())
+        $feature->expects(self::once())
             ->method('getDescription')
             ->willReturn(
                 "In order to order products\n" .
@@ -100,19 +100,19 @@ final class CheckGherkinCodeStyleTest extends \PHPUnit_Framework_TestCase
                 "I need to be able to create an account in the store"
             );
 
-        $feature->expects($this->once())
+        $feature->expects(self::once())
             ->method('hasBackground')
             ->willReturn(true);
 
-        $feature->expects($this->once())
+        $feature->expects(self::once())
             ->method('getBackground')
             ->willReturn($this->getBackground());
 
-        $feature->expects($this->once())
+        $feature->expects(self::once())
             ->method('hasScenarios')
             ->willReturn(false);
 
-        $parser->expects($this->once())
+        $parser->expects(self::once())
             ->method('parse')
             ->willReturn($feature);
 
@@ -127,8 +127,8 @@ final class CheckGherkinCodeStyleTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
-        $this->assertRegExp('/Wrong style/', $commandTester->getDisplay());
-        $this->assertNotRegExp('/I need to be able to create an account in the store/', $commandTester->getDisplay());
+        self::assertRegExp('/Wrong style/', $commandTester->getDisplay());
+        self::assertNotRegExp('/I need to be able to create an account in the store/', $commandTester->getDisplay());
     }
 
     /**
@@ -141,15 +141,15 @@ final class CheckGherkinCodeStyleTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $background->expects($this->once())
+        $background->expects(self::once())
             ->method('getKeyword')
             ->willReturn('Background');
 
-        $background->expects($this->once())
+        $background->expects(self::once())
             ->method('getTitle')
             ->willReturn('Nice Background');
 
-        $background->expects($this->once())
+        $background->expects(self::once())
             ->method('getSteps')
             ->willReturn([
                 new StepNode('Given', 'store has default configuration', [], 1),
