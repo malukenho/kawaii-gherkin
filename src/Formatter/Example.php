@@ -41,13 +41,13 @@ final class Example extends AbstractFormatter
         return implode(
             array_merge(
                 [
-                    $this->indent(self::INDENTATION * 2) . rtrim($scenario->getExampleTable()->getKeyword()) . ':' . PHP_EOL,
+                    $this->indent(self::INDENTATION * 2) . rtrim($scenario->getExampleTable()->getKeyword()) . ":\n",
                 ],
                 array_map(
                     function ($arguments) {
-                        return $this->indent(self::INDENTATION * 2 + 2) . trim($arguments) . PHP_EOL;
+                        return $this->indent(self::INDENTATION * 2 + 2) . trim($arguments) . "\n";
                     },
-                    explode(PHP_EOL, $scenario->getExampleTable()->getTableAsString())
+                    explode("\n", $scenario->getExampleTable()->getTableAsString())
                 )
             )
         );

@@ -88,7 +88,7 @@ final class Step extends AbstractFormatter
             $this->indent($spacesQuantity + self::INDENTATION),
             trim($step->getKeyword()),
             trim($step->getText())
-        )) . PHP_EOL;
+        )) . "\n";
 
     }
 
@@ -110,9 +110,9 @@ final class Step extends AbstractFormatter
                         return implode(
                             array_map(
                                 function ($arguments) {
-                                    return $this->indent(self::INDENTATION * 2 + 4) . trim($arguments) . PHP_EOL;
+                                    return $this->indent(self::INDENTATION * 2 + 4) . trim($arguments) . "\n";
                                 },
-                                explode(PHP_EOL, $argument->getTableAsString())
+                                explode("\n", $argument->getTableAsString())
                             )
                         );
                     }
@@ -122,7 +122,7 @@ final class Step extends AbstractFormatter
                             implode(
                                 array_map(
                                     function ($arguments) {
-                                        return rtrim($this->indent(self::INDENTATION * 2 + 2) . trim($arguments)) . PHP_EOL;
+                                        return rtrim($this->indent(self::INDENTATION * 2 + 2) . trim($arguments)) . "\n";
                                     },
                                     $argument->getStrings()
                                 )
@@ -142,6 +142,6 @@ final class Step extends AbstractFormatter
      */
     private function encapsulateAsPyString($string)
     {
-        return sprintf('%s%s%1$s', $this->indent(8) . '"""' . PHP_EOL, $string);
+        return sprintf('%s%s%1$s', $this->indent(8) . '"""' . "\n", $string);
     }
 }

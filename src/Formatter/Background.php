@@ -43,7 +43,7 @@ final class Background extends AbstractFormatter
      */
     public function format(BackgroundNode $background)
     {
-        $shortDesc = $this->getBackgroundShortDescription($background) . PHP_EOL;
+        $shortDesc = $this->getBackgroundShortDescription($background) . "\n";
 
         $step  = new Step($this->align);
         $steps = $step->format($background->getSteps());
