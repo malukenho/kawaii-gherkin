@@ -107,9 +107,9 @@ final class CheckGherkinCodeStyle extends Command
             $contentWithoutComments = $this->removeComments($fileContent);
             $feature                = $this->parser->parse($fileContent);
 
-            $formatted = $feature->hasTags() ? $tagFormatter->format($feature->getTags()) . PHP_EOL : '';
-            $formatted .= $featureDescription->format($feature) . PHP_EOL . PHP_EOL;
-            $formatted .= $feature->hasBackground() ? $background->format($feature->getBackground()) . PHP_EOL : '';
+            $formatted = $feature->hasTags() ? $tagFormatter->format($feature->getTags()) . "\n" : '';
+            $formatted .= $featureDescription->format($feature) . "\n\n";
+            $formatted .= $feature->hasBackground() ? $background->format($feature->getBackground()) . "\n" : '';
             $formatted .= $feature->hasScenarios() ? $scenario->format($feature->getScenarios()) : '';
 
             if ($formatted !== $contentWithoutComments) {
@@ -148,12 +148,12 @@ final class CheckGherkinCodeStyle extends Command
                                 return '';
                             }
 
-                            return rtrim($line) . PHP_EOL;
+                            return rtrim($line) . "\n";
                         },
                         explode("\n", $fileContent)
                     )
                 )
             )
-        ) . PHP_EOL;
+        ) . "\n";
     }
 }

@@ -103,9 +103,9 @@ final class FixGherkinCodeStyle extends Command
             $fileContent = $file->getContents();
             $feature     = $this->parser->parse($fileContent);
 
-            $formatted = $feature->hasTags() ? $tagFormatter->format($feature->getTags()) . PHP_EOL : '';
-            $formatted .= $featureDescription->format($feature) . PHP_EOL . PHP_EOL;
-            $formatted .= $feature->hasBackground() ? $background->format($feature->getBackground()) . PHP_EOL : '';
+            $formatted = $feature->hasTags() ? $tagFormatter->format($feature->getTags()) . "\n" : '';
+            $formatted .= $featureDescription->format($feature) . "\n\n";
+            $formatted .= $feature->hasBackground() ? $background->format($feature->getBackground()) . "\n" : '';
             $formatted .= $feature->hasScenarios() ? $scenario->format($feature->getScenarios()) : '';
 
             $filePointer = $file->openFile('w');
