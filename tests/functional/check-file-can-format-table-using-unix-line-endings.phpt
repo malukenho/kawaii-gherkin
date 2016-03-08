@@ -11,7 +11,7 @@ $kawaiiGherkinCheck('tests/assets/issue-3.feature');
 --EXPECTF--
 Finding files on tests/assets/issue-3.feature
 
-Wrong style: /Users/malukenho/Projects/open-source/gherkin-cs-fix/tests/assets/issue-3.feature
+Wrong style: %A/tests/assets/issue-3.feature
 --- Original
 +++ Expected
 -  Scenario Outline:
