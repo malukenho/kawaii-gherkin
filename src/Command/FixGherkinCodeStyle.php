@@ -95,16 +95,16 @@ final class FixGherkinCodeStyle extends Command
         $output->writeln('Finding files on <info>' . $directory . '</info>');
         $output->writeln('');
 
+        $tagFormatter       = new Tags();
+        $featureDescription = new FeatureDescription();
+        $background         = new Background($align);
+        $scenario           = new Scenario($align);
+
         /* @var $file \Symfony\Component\Finder\SplFileInfo */
         foreach ($finder as $file) {
 
             $fileContent = $file->getContents();
             $feature     = $this->parser->parse($fileContent);
-
-            $tagFormatter       = new Tags();
-            $featureDescription = new FeatureDescription();
-            $background         = new Background($align);
-            $scenario           = new Scenario($align);
 
             $formatted = $feature->hasTags() ? $tagFormatter->format($feature->getTags()) . PHP_EOL : '';
             $formatted .= $featureDescription->format($feature->getTitle(), explode(PHP_EOL, $feature->getDescription())) . PHP_EOL . PHP_EOL;

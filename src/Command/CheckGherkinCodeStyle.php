@@ -94,17 +94,17 @@ final class CheckGherkinCodeStyle extends Command
 
         $output->writeln("\nFinding files on <info>" . $directory . "</info>\n");
 
+        $tagFormatter       = new Tags();
+        $featureDescription = new FeatureDescription();
+        $background         = new Background($align);
+        $scenario           = new Scenario($align);
+
         /* @var $file \Symfony\Component\Finder\SplFileInfo */
         foreach ($finder as $file) {
 
             $fileContent            = $file->getContents();
             $contentWithoutComments = $this->removeComments($fileContent);
-
-            $feature            = $this->parser->parse($fileContent);
-            $tagFormatter       = new Tags();
-            $featureDescription = new FeatureDescription();
-            $background         = new Background($align);
-            $scenario           = new Scenario($align);
+            $feature                = $this->parser->parse($fileContent);
 
             $formatted = $feature->hasTags() ? $tagFormatter->format($feature->getTags()) . PHP_EOL : '';
             $formatted .= $featureDescription->format($feature->getTitle(), explode(PHP_EOL, $feature->getDescription())) . PHP_EOL . PHP_EOL;
