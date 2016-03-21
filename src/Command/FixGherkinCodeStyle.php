@@ -19,6 +19,7 @@
 namespace KawaiiGherkin\Command;
 
 use Behat\Gherkin\Parser;
+use KawaiiGherkin\FeatureResolve;
 use KawaiiGherkin\Formatter\Background;
 use KawaiiGherkin\Formatter\FeatureDescription;
 use KawaiiGherkin\Formatter\Scenario;
@@ -85,26 +86,22 @@ final class FixGherkinCodeStyle extends Command
             : Step::ALIGN_TO_RIGHT;
 
         $directory = $input->getArgument('directory');
-        $finder    = new Finder();
-        $finder
-            ->files()
-            ->in($directory)
-            ->name('*.feature');
+        $finder    = (new FeatureResolve($directory))->__invoke();
 
         $output->writeln('');
         $output->writeln('Finding files on <info>' . $directory . '</info>');
         $output->writeln('');
+
+        $tagFormatter       = new Tags();
+        $featureDescription = new FeatureDescription();
+        $background         = new Background($align);
+        $scenario           = new Scenario($align);
 
         /* @var $file \Symfony\Component\Finder\SplFileInfo */
         foreach ($finder as $file) {
 
             $fileContent = $file->getContents();
             $feature     = $this->parser->parse($fileContent);
-
-            $tagFormatter       = new Tags();
-            $featureDescription = new FeatureDescription();
-            $background         = new Background($align);
-            $scenario           = new Scenario($align);
 
             $formatted = $feature->hasTags() ? $tagFormatter->format($feature->getTags()) . PHP_EOL : '';
             $formatted .= $featureDescription->format($feature) . PHP_EOL . PHP_EOL;
