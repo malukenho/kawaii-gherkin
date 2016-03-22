@@ -33,11 +33,11 @@ final class FeatureDescription extends AbstractFormatter
      */
     public function format(FeatureNode $feature)
     {
-        $shortDesc   = $feature->getKeyword() . ': ' . $feature->getTitle() . PHP_EOL;
+        $shortDesc   = $feature->getKeyword() . ': ' . $feature->getTitle() . "\n";
         $longDesc    =  implode(
             array_map(
                 function ($descriptionLine) {
-                    return $this->indent() . trim($descriptionLine) . PHP_EOL;
+                    return $this->indent() . trim($descriptionLine) . "\n";
                 },
                 explode("\n", $feature->getDescription())
             )

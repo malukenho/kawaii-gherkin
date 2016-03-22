@@ -54,7 +54,7 @@ final class Scenario extends AbstractFormatter
                 },
                 $scenarios
             )
-        )) . PHP_EOL;
+        )) . "\n";
     }
 
     /**
@@ -68,7 +68,7 @@ final class Scenario extends AbstractFormatter
             return $this->indent();
         }
 
-        return $this->indent() . (new Tags())->format($scenario->getTags()) . PHP_EOL;
+        return $this->indent() . (new Tags())->format($scenario->getTags()) . "\n";
     }
 
     /**
@@ -86,12 +86,12 @@ final class Scenario extends AbstractFormatter
         }
 
         return implode(
-            PHP_EOL . $this->indent(12),
+            "\n" . $this->indent(12),
             array_merge(
                 [$scenarioTitle],
                 $titleLines
             )
-        ) . PHP_EOL;
+        ) . "\n";
     }
 
     /**
@@ -107,7 +107,7 @@ final class Scenario extends AbstractFormatter
 
         $step = new Step($this->align);
 
-        return $step->format($scenario->getSteps()) . PHP_EOL;
+        return $step->format($scenario->getSteps()) . "\n";
     }
 
     /**
@@ -132,7 +132,7 @@ final class Scenario extends AbstractFormatter
     {
         return array_map(
             'trim',
-            explode(PHP_EOL, $scenario->getTitle())
+            explode("\n", $scenario->getTitle())
         );
     }
 }
