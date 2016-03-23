@@ -37,7 +37,6 @@ final class Example extends AbstractFormatter
             return;
         }
 
-        // TODO: refactor this part
         return implode(
             array_merge(
                 [
