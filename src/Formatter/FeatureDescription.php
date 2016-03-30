@@ -33,8 +33,13 @@ final class FeatureDescription extends AbstractFormatter
      */
     public function format(FeatureNode $feature)
     {
-        $shortDesc   = $feature->getKeyword() . ': ' . $feature->getTitle() . "\n";
-        $longDesc    =  implode(
+        $shortDesc = $feature->getKeyword() . ': ' . $feature->getTitle() . "\n";
+
+        if (! $feature->hasDescription()) {
+            return rtrim($shortDesc);
+        }
+
+        $longDesc = implode(
             array_map(
                 function ($descriptionLine) {
                     return $this->indent() . trim($descriptionLine) . "\n";
