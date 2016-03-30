@@ -23,7 +23,6 @@ Wrong style: %A/tests/assets/issue-3.feature
 -        | de     | Herzlich Willkommen %USERNAME%.   |
 -        | ar     | مرحبا %USERNAME%                  |
 -        | ja     | ようこそ %USERNAME%                |
-+
 +    Scenario Outline:
 +        When I navigate in <locale> language
 +        Then I should see "<message>"
