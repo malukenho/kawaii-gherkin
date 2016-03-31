@@ -81,6 +81,10 @@ final class CheckGherkinCodeStyleTest extends \PHPUnit_Framework_TestCase
             ->willReturn(true);
 
         $feature->expects(self::once())
+            ->method('getKeyword')
+            ->willReturn('Feature');
+
+        $feature->expects(self::once())
             ->method('getTags')
             ->willReturn(
                 ['users', 'another-feature', 'another-tag']
@@ -91,6 +95,10 @@ final class CheckGherkinCodeStyleTest extends \PHPUnit_Framework_TestCase
             ->willReturn(
                 'User registration'
             );
+
+        $feature->expects(self::once())
+            ->method('hasDescription')
+            ->willReturn(true);
 
         $feature->expects(self::once())
             ->method('getDescription')

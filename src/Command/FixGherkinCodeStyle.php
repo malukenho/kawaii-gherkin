@@ -88,9 +88,7 @@ final class FixGherkinCodeStyle extends Command
         $directory = $input->getArgument('directory');
         $finder    = (new FeatureResolve($directory))->__invoke();
 
-        $output->writeln('');
-        $output->writeln('Finding files on <info>' . $directory . '</info>');
-        $output->writeln('');
+        $output->writeln("\nFinding files on <info>" . $directory . "</info>\n");
 
         $tagFormatter       = new Tags();
         $featureDescription = new FeatureDescription();
@@ -111,7 +109,7 @@ final class FixGherkinCodeStyle extends Command
             $filePointer = $file->openFile('w');
             $filePointer->fwrite($formatted);
 
-            $output->writeln('<info>' . $file->getRealpath() . '</info>');
+            $output->writeln('<info>' . $file->getRealPath() . '</info>');
         }
     }
 }
