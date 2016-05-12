@@ -20,13 +20,14 @@
 use Symfony\Component\Console\Application;
 
 $autoload = [
-    __DIR__ . '/../../../autoload.php',
-    __DIR__ . '/../../autoload.php',
-    __DIR__ . '/../vendor/autoload.php',
-    __DIR__ . '/vendor/autoload.php'
+    __DIR__ . '/../../..',
+    __DIR__ . '/../..',
+    __DIR__ . '/../vendor',
+    __DIR__ . '/vendor'
 ];
 
-foreach ($autoload as $file) {
+foreach ($autoload as $composerVendor) {
+    $file = $composerVendor . '/autoload.php';
     if (file_exists($file)) {
         define('COMPOSER_INSTALLED', $file);
 
@@ -49,21 +50,9 @@ if (! defined('COMPOSER_INSTALLED')) {
 
 require COMPOSER_INSTALLED;
 
-// TODO: get this parser by a file
-$keywords = new Behat\Gherkin\Keywords\ArrayKeywords([
-    'en' => [
-        'feature'          => 'Feature',
-        'background'       => 'Background',
-        'scenario'         => 'Scenario',
-        'scenario_outline' => 'Scenario Outline|Scenario Template',
-        'examples'         => 'Examples|Scenarios',
-        'given'            => 'Given',
-        'when'             => 'When',
-        'then'             => 'Then',
-        'and'              => 'And',
-        'but'              => 'But',
-    ],
-]);
+$keywords = new Behat\Gherkin\Keywords\ArrayKeywords(
+    require $composerVendor . '/behat/gherkin/i18n.php'
+);
 
 $lexer  = new Behat\Gherkin\Lexer($keywords);
 $parser = new Behat\Gherkin\Parser($lexer);
