@@ -4,12 +4,13 @@ Kawaii Gherkin
 [![Build Status](https://travis-ci.org/malukenho/kawaii-gherkin.svg?branch=master)](https://travis-ci.org/malukenho/kawaii-gherkin)
 [![Code Coverage](https://scrutinizer-ci.com/g/malukenho/kawaii-gherkin/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/malukenho/kawaii-gherkin/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/malukenho/kawaii-gherkin/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/malukenho/kawaii-gherkin/?branch=master)
+[![Code Climate](https://codeclimate.com/github/malukenho/kawaii-gherkin/badges/gpa.svg)](https://codeclimate.com/github/malukenho/kawaii-gherkin)
 [![Latest Stable Version](https://poser.pugx.org/malukenho/kawaii-gherkin/v/stable)](https://packagist.org/packages/malukenho/kawaii-gherkin)
 [![Total Downloads](https://poser.pugx.org/malukenho/kawaii-gherkin/downloads)](https://packagist.org/packages/malukenho/kawaii-gherkin)
 [![Latest Unstable Version](https://poser.pugx.org/malukenho/kawaii-gherkin/v/unstable)](https://packagist.org/packages/malukenho/kawaii-gherkin)
 [![License](https://poser.pugx.org/malukenho/kawaii-gherkin/license)](https://packagist.org/packages/malukenho/kawaii-gherkin)
 
-**Kawaii Gherkin** is a small tool to fix and verify gherkin code style. 
+**Kawaii Gherkin** is a small tool to fix and verify gherkin code style.
 
 ### Installing
 
