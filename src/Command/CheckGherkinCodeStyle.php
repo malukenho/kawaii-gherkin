@@ -107,7 +107,8 @@ final class CheckGherkinCodeStyle extends Command
             $contentWithoutComments = $this->removeComments($fileContent);
             $feature                = $this->parser->parse($fileContent);
 
-            $formatted = $feature->hasTags() ? $tagFormatter->format($feature->getTags()) . "\n" : '';
+            $formatted  = $feature->getLanguage() && $feature->getLanguage() !== 'en' ? '# language: ' . trim($feature->getLanguage()) . "\n" : '';
+            $formatted .= $feature->hasTags() ? $tagFormatter->format($feature->getTags()) . "\n" : '';
             $formatted .= $featureDescription->format($feature) . "\n\n";
             $formatted .= $feature->hasBackground() ? $background->format($feature->getBackground()) . "\n" : '';
             $formatted .= $feature->hasScenarios() ? $scenario->format($feature->getScenarios()) : '';
