@@ -15,5 +15,7 @@ Finding files on tests/assets/language.feature
 Wrong style: %A/tests/assets/language.feature
 --- Original
 +++ Expected
++# language: fr
+
 -          Et there are following users:
 +        Et there are following users:
