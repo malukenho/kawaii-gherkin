@@ -22,6 +22,7 @@ use Behat\Gherkin\Exception\ParserException;
 use Behat\Gherkin\Parser;
 use KawaiiGherkin\FeatureResolve;
 use KawaiiGherkin\Formatter\Background;
+use KawaiiGherkin\Formatter\ComposedFormatter;
 use KawaiiGherkin\Formatter\FeatureDescription;
 use KawaiiGherkin\Formatter\Scenario;
 use KawaiiGherkin\Formatter\Step;
@@ -95,11 +96,6 @@ final class CheckGherkinCodeStyle extends Command
 
         $output->writeln("\nFinding files on <info>" . $directory . "</info>\n");
 
-        $tagFormatter       = new Tags();
-        $featureDescription = new FeatureDescription();
-        $background         = new Background($align);
-        $scenario           = new Scenario($align);
-
         /* @var $file \Symfony\Component\Finder\SplFileInfo */
         foreach ($finder as $file) {
 
@@ -107,11 +103,13 @@ final class CheckGherkinCodeStyle extends Command
             $contentWithoutComments = $this->removeComments($fileContent);
             $feature                = $this->parser->parse($fileContent);
 
-            $formatted  = $feature->getLanguage() && $feature->getLanguage() !== 'en' ? '# language: ' . trim($feature->getLanguage()) . "\n" : '';
-            $formatted .= $feature->hasTags() ? $tagFormatter->format($feature->getTags()) . "\n" : '';
-            $formatted .= $featureDescription->format($feature) . "\n\n";
-            $formatted .= $feature->hasBackground() ? $background->format($feature->getBackground()) . "\n" : '';
-            $formatted .= $feature->hasScenarios() ? $scenario->format($feature->getScenarios()) : '';
+            $formatted = (new ComposedFormatter(
+                new FeatureDescription(),
+                new Background($align),
+                new Scenario($align),
+                new Tags()
+            ))
+                ->__invoke($feature);
 
             if ($formatted !== $contentWithoutComments) {
 
