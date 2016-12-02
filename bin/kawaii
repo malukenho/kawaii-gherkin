@@ -19,46 +19,43 @@
 
 use Symfony\Component\Console\Application;
 
-$autoload = [
-    __DIR__ . '/../../..',
-    __DIR__ . '/../..',
-    __DIR__ . '/../vendor',
-    __DIR__ . '/vendor'
-];
-
-foreach ($autoload as $composerVendor) {
-    $file = $composerVendor . '/autoload.php';
-    if (file_exists($file)) {
-        define('COMPOSER_INSTALLED', $file);
-
-        break;
-    }
-}
-
-unset($file);
-
-if (! defined('COMPOSER_INSTALLED')) {
-    fwrite(
-        STDERR,
-        'You need to set up the project dependencies using the following commands:' . PHP_EOL .
-        'wget http://getcomposer.org/composer.phar' . PHP_EOL .
-        'php composer.phar install' . PHP_EOL
+call_user_func(function () {
+    $autoload = array_filter(
+        [
+            __DIR__ . '/../../../autoload.php',
+            __DIR__ . '/../../autoload.php',
+            __DIR__ . '/../vendor/autoload.php',
+            __DIR__ . '/vendor/autoload.php'
+        ],
+        'is_file'
     );
 
-    die(1);
-}
+    if (! count($autoload)) {
+        fwrite(
+            STDERR,
+            'You need to set up the project dependencies using the following commands:' . PHP_EOL .
+            'wget http://getcomposer.org/composer.phar' . PHP_EOL .
+            'php composer.phar install' . PHP_EOL
+        );
 
-/* @noinspection PhpIncludeInspection */
-require COMPOSER_INSTALLED;
+        die(1);
+    }
 
-$keywords = new Behat\Gherkin\Keywords\ArrayKeywords(
-    require $composerVendor . '/behat/gherkin/i18n.php'
-);
+    $autoloadPath = current($autoload);
 
-$lexer  = new Behat\Gherkin\Lexer($keywords);
-$parser = new Behat\Gherkin\Parser($lexer);
+    /* @noinspection PhpIncludeInspection */
+    require $autoloadPath;
 
-$application = new Application('Kawaii Gherkin', '1.0.3');
-$application->add(new \KawaiiGherkin\Command\FixGherkinCodeStyle(null, $parser));
-$application->add(new \KawaiiGherkin\Command\CheckGherkinCodeStyle(null, $parser));
-$application->run();
+    $keywords = new Behat\Gherkin\Keywords\ArrayKeywords(
+        require  dirname($autoloadPath) . '/behat/gherkin/i18n.php'
+    );
+
+    $lexer  = new Behat\Gherkin\Lexer($keywords);
+    $parser = new Behat\Gherkin\Parser($lexer);
+
+    $application = new Application('Kawaii Gherkin', '1.0.3');
+    $application->add(new \KawaiiGherkin\Command\FixGherkinCodeStyle(null, $parser));
+    $application->add(new \KawaiiGherkin\Command\CheckGherkinCodeStyle(null, $parser));
+
+    $application->run();
+});
