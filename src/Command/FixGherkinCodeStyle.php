@@ -21,6 +21,7 @@ namespace KawaiiGherkin\Command;
 use Behat\Gherkin\Parser;
 use KawaiiGherkin\FeatureResolve;
 use KawaiiGherkin\Formatter\Background;
+use KawaiiGherkin\Formatter\ComposedFormatter;
 use KawaiiGherkin\Formatter\FeatureDescription;
 use KawaiiGherkin\Formatter\Scenario;
 use KawaiiGherkin\Formatter\Step;
@@ -90,21 +91,19 @@ final class FixGherkinCodeStyle extends Command
 
         $output->writeln("\nFinding files on <info>" . $directory . "</info>\n");
 
-        $tagFormatter       = new Tags();
-        $featureDescription = new FeatureDescription();
-        $background         = new Background($align);
-        $scenario           = new Scenario($align);
-
         /* @var $file \Symfony\Component\Finder\SplFileInfo */
         foreach ($finder as $file) {
 
             $fileContent = $file->getContents();
             $feature     = $this->parser->parse($fileContent);
 
-            $formatted = $feature->hasTags() ? $tagFormatter->format($feature->getTags()) . "\n" : '';
-            $formatted .= $featureDescription->format($feature) . "\n\n";
-            $formatted .= $feature->hasBackground() ? $background->format($feature->getBackground()) . "\n" : '';
-            $formatted .= $feature->hasScenarios() ? $scenario->format($feature->getScenarios()) : '';
+            $formatted = (new ComposedFormatter(
+                new FeatureDescription(),
+                new Background($align),
+                new Scenario($align),
+                new Tags()
+            ))
+                ->__invoke($feature);
 
             $filePointer = $file->openFile('w');
             $filePointer->fwrite($formatted);
