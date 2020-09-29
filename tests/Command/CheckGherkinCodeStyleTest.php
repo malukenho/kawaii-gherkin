@@ -24,6 +24,7 @@ use Behat\Gherkin\Node\StepNode;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Gherkin\Parser;
 use KawaiiGherkin\Command\CheckGherkinCodeStyle;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -35,11 +36,10 @@ use Symfony\Component\Console\Tester\CommandTester;
  * @group Coverage
  * @license MIT
  */
-final class CheckGherkinCodeStyleTest extends \PHPUnit_Framework_TestCase
+final class CheckGherkinCodeStyleTest extends TestCase
 {
     public function testShouldReturnOkIfThereIsNoFilesFound()
     {
-        $kernel = $this->getMock(\stdClass::class);
         /* @var \Behat\Gherkin\Parser|\PHPUnit_Framework_MockObject_MockObject $parser */
         $parser = $this->getMockBuilder(Parser::class)
             ->disableOriginalConstructor()
@@ -48,7 +48,7 @@ final class CheckGherkinCodeStyleTest extends \PHPUnit_Framework_TestCase
         $parser->expects(self::exactly(0))
             ->method('parse');
 
-        $application = new Application($kernel);
+        $application = new Application('test');
         $application->add(new CheckGherkinCodeStyle(null, $parser));
 
         $command       = $application->find('gherkin:check');
@@ -64,8 +64,6 @@ final class CheckGherkinCodeStyleTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldReturnErrorIfThereIsFilesWithWrongStyle()
     {
-        $kernel = $this->getMock(\stdClass::class);
-
         /* @var \Behat\Gherkin\Parser|\PHPUnit_Framework_MockObject_MockObject $parser */
         $parser = $this->getMockBuilder(Parser::class)
             ->disableOriginalConstructor()
@@ -124,7 +122,7 @@ final class CheckGherkinCodeStyleTest extends \PHPUnit_Framework_TestCase
             ->method('parse')
             ->willReturn($feature);
 
-        $application = new Application($kernel);
+        $application = new Application('test');
         $application->add(new CheckGherkinCodeStyle(null, $parser));
 
         $command       = $application->find('gherkin:check');

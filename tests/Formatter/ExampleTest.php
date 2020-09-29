@@ -21,6 +21,7 @@ namespace KawaiiGherkinTest\Formatter;
 use Behat\Gherkin\Node\ExampleTableNode;
 use Behat\Gherkin\Node\OutlineNode;
 use KawaiiGherkin\Formatter\Example;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for {@see \KawaiiGherkin\Formatter\Example}
@@ -30,7 +31,7 @@ use KawaiiGherkin\Formatter\Example;
  * @group Coverage
  * @license MIT
  */
-final class ExampleTest extends \PHPUnit_Framework_TestCase
+final class ExampleTest extends TestCase
 {
     /**
      * @var Example

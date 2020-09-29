@@ -3,8 +3,9 @@
 namespace KawaiiGherkinTest;
 
 use KawaiiGherkin\FeatureResolve;
+use PHPUnit\Framework\TestCase;
 
-final class FeatureResolveTest extends \PHPUnit_Framework_TestCase
+final class FeatureResolveTest extends TestCase
 {
     /**
      * @dataProvider unExistsDirectory

@@ -1,5 +1,7 @@
 <?php
 
+use PHPUnit\Framework\Assert;
+
 require  __DIR__ . '/../../vendor/autoload.php';
 
 /**
@@ -8,7 +10,7 @@ require  __DIR__ . '/../../vendor/autoload.php';
 $kawaiiGherkinCheck = function ($params) {
 
     if (!is_string($params)) {
-        PHPUnit_Framework_Assert::markTestSkipped(
+        Assert::markTestSkipped(
             sprintf(
                 '$param was expected to be a "string", "%s" given.',
                 gettype($params)
