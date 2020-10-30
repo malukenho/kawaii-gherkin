@@ -28,6 +28,7 @@ use KawaiiGherkin\Formatter\Scenario;
 use KawaiiGherkin\Formatter\Step;
 use KawaiiGherkin\Formatter\Tags;
 use SebastianBergmann\Diff\Differ;
+use SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -117,7 +118,8 @@ final class CheckGherkinCodeStyle extends Command
                     define('FAILED', true);
                 }
 
-                $diff = new Differ("--- Original\n+++ Expected\n", false);
+                $outputBuilder = new UnifiedDiffOutputBuilder("--- Original\n+++ Expected\n", false);
+                $diff = new Differ($outputBuilder);
 
                 $output->writeln('<error>Wrong style: ' . $file->getRealPath() . '</error>');
                 $output->writeln($diff->diff($contentWithoutComments, $formatted));

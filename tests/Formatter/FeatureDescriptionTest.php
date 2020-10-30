@@ -20,6 +20,7 @@ namespace KawaiiGherkinTest\Formatter;
 
 use Behat\Gherkin\Node\FeatureNode;
 use KawaiiGherkin\Formatter\FeatureDescription;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for {@see \KawaiiGherkin\Formatter\FeatureDescription}
@@ -29,7 +30,7 @@ use KawaiiGherkin\Formatter\FeatureDescription;
  * @group Coverage
  * @license MIT
  */
-final class FeatureDescriptionTest extends \PHPUnit_Framework_TestCase
+final class FeatureDescriptionTest extends TestCase
 {
     /**
      * @var FeatureDescription

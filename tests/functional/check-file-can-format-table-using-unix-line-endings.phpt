@@ -14,9 +14,12 @@ Finding files on tests/assets/issue-3.feature
 Wrong style: %A/tests/assets/issue-3.feature
 --- Original
 +++ Expected
+@@ @@
+ Feature: Test Welcome page
 -  Scenario Outline:
 -      When I navigate in <locale> language
 -      Then I should see "<message>"
+ 
 -      Examples:
 -        | locale | message                           |
 -        | fr     | Bienvenue %USERNAME%.             |

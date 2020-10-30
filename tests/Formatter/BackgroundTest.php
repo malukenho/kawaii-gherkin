@@ -22,6 +22,7 @@ use Behat\Gherkin\Node\BackgroundNode;
 use Behat\Gherkin\Node\StepNode;
 use Behat\Gherkin\Node\TableNode;
 use KawaiiGherkin\Formatter\Background;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 
 /**
@@ -32,7 +33,7 @@ use Prophecy\Argument;
  * @group  Coverage
  * @license MIT
  */
-final class BackgroundTest extends \PHPUnit_Framework_TestCase
+final class BackgroundTest extends TestCase
 {
     /**
      * @var Background

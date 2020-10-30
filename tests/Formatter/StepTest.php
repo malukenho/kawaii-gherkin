@@ -23,6 +23,7 @@ use Behat\Gherkin\Node\ScenarioNode;
 use Behat\Gherkin\Node\StepNode;
 use Behat\Gherkin\Node\TableNode;
 use KawaiiGherkin\Formatter\Step;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for {@see \KawaiiGherkin\Formatter\Step}
@@ -32,7 +33,7 @@ use KawaiiGherkin\Formatter\Step;
  * @group Coverage
  * @license MIT
  */
-final class StepTest extends \PHPUnit_Framework_TestCase
+final class StepTest extends TestCase
 {
     /**
      * @var Step
