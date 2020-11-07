@@ -40,7 +40,7 @@ final class FeatureDescriptionTest extends TestCase
     /**
      * {@inheritDoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->formatter = new FeatureDescription();
     }
