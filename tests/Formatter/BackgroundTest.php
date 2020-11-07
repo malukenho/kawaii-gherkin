@@ -43,7 +43,7 @@ final class BackgroundTest extends TestCase
     /**
      * {@inheritDoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->formatter = new Background();
     }

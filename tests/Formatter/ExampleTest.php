@@ -41,7 +41,7 @@ final class ExampleTest extends TestCase
     /**
      * {@inheritDoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->formatter = new Example();
     }
