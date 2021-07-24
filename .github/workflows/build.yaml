@@ -1,0 +1,51 @@
+---
+name: Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['7.4', '8.0', '8.1']
+        symfony: ['4.4', '5.4']
+        composer-flags: ['', '--prefer-lowest']
+        include:
+          - php: '8.0'
+            symfony: '6.0'
+            composer-flags: ''
+          - php: '8.0'
+            symfony: '6.0'
+            composer-flags: '--prefer-lowest'
+          - php: '8.1'
+            symfony: '6.0'
+            composer-flags: ''
+          - php: '8.1'
+            symfony: '6.0'
+            composer-flags: '--prefer-lowest'
+    steps:
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+      - uses: actions/checkout@v2
+      - name: Force Symfony ${{ matrix.symfony }}
+        run: |
+            curl -s https://repo.packagist.org/p2/symfony/symfony.json | jq '.packages."symfony/symfony" | map(select(.version_normalized | startswith("${{ matrix.symfony }}"))) | first.replace | to_entries | map({key: .key, value: "<${{ matrix.symfony }} || > ${{ matrix.symfony }}.9999"}) | from_entries' > conflict.json
+            jq -s '.[0] + {conflict: .[1]}' composer.json conflict.json > composer.new.json
+            mv composer.new.json composer.json
+            rm conflict.json
+            cat composer.json
+      - name: Install Dependencies
+        run: composer update --prefer-stable ${{ matrix.composer-flags }}
+      - name: Run PhpStan
+        run: vendor/bin/phpstan analyse
+      - name: Run Behat
+        run: vendor/bin/behat
+      - name: Check regression
+        run: php tests/regression.php

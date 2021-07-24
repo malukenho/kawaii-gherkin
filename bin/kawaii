@@ -1,61 +1,38 @@
 #!/usr/bin/env php
 <?php
-/*
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license.
- */
 
+use KawaiiGherkin\DIC\Bootstrap;
 use Symfony\Component\Console\Application;
 
-call_user_func(function () {
+call_user_func(function (): void {
     $autoload = array_filter(
         [
-            __DIR__ . '/../../../autoload.php',
-            __DIR__ . '/../../autoload.php',
-            __DIR__ . '/../vendor/autoload.php',
-            __DIR__ . '/vendor/autoload.php'
+            __DIR__.'/../../../autoload.php',
+            __DIR__.'/../../autoload.php',
+            __DIR__.'/../vendor/autoload.php',
+            __DIR__.'/vendor/autoload.php',
         ],
-        'is_file'
+        'file_exists'
     );
 
-    if (! count($autoload)) {
+    if (!count($autoload)) {
         fwrite(
             STDERR,
-            'You need to set up the project dependencies using the following commands:' . PHP_EOL .
-            'wget http://getcomposer.org/composer.phar' . PHP_EOL .
-            'php composer.phar install' . PHP_EOL
+            'You need to set up the project dependencies using the following commands:'.PHP_EOL.
+            'wget http://getcomposer.org/composer.phar'.PHP_EOL.
+            'php composer.phar install'.PHP_EOL
         );
 
-        die(1);
+        exit(1);
     }
 
     $autoloadPath = current($autoload);
 
-    /* @noinspection PhpIncludeInspection */
+    /** @noinspection PhpIncludeInspection */
     require $autoloadPath;
 
-    $keywords = new Behat\Gherkin\Keywords\ArrayKeywords(
-        require  dirname($autoloadPath) . '/behat/gherkin/i18n.php'
-    );
+    $dic = (new Bootstrap())->build();
 
-    $lexer  = new Behat\Gherkin\Lexer($keywords);
-    $parser = new Behat\Gherkin\Parser($lexer);
-
-    $application = new Application('Kawaii Gherkin', '1.0.3');
-    $application->add(new \KawaiiGherkin\Command\FixGherkinCodeStyle(null, $parser));
-    $application->add(new \KawaiiGherkin\Command\CheckGherkinCodeStyle(null, $parser));
-
-    $application->run();
+    $dic->setParameter('autoload.file', static fn (): string => $autoloadPath);
+    $dic->getService(Application::class)->run();
 });

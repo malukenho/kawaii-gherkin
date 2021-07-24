@@ -1,20 +1,14 @@
-Kawaii Gherkin
-==============
+Kawaii - Gherkin Formatter
+==========================
 
-[![Build Status](https://travis-ci.org/malukenho/kawaii-gherkin.svg?branch=master)](https://travis-ci.org/malukenho/kawaii-gherkin)
-[![Code Coverage](https://scrutinizer-ci.com/g/malukenho/kawaii-gherkin/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/malukenho/kawaii-gherkin/?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/malukenho/kawaii-gherkin/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/malukenho/kawaii-gherkin/?branch=master)
-[![Latest Stable Version](https://poser.pugx.org/malukenho/kawaii-gherkin/v/stable)](https://packagist.org/packages/malukenho/kawaii-gherkin)
-[![Total Downloads](https://poser.pugx.org/malukenho/kawaii-gherkin/downloads)](https://packagist.org/packages/malukenho/kawaii-gherkin)
-[![Latest Unstable Version](https://poser.pugx.org/malukenho/kawaii-gherkin/v/unstable)](https://packagist.org/packages/malukenho/kawaii-gherkin)
-[![License](https://poser.pugx.org/malukenho/kawaii-gherkin/license)](https://packagist.org/packages/malukenho/kawaii-gherkin)
+*This package is a fork of the awesome [malukenho/kawaii-gerkin](https://github.com/malukenho/kawaii-gherkin) package made by Jefersson NATHAN ([@malukenho](http://github.com/malukenho)).*
 
-**Kawaii Gherkin** is a small tool to fix and verify gherkin code style. 
+**Kawaii** is a small tool to fix and verify gherkin code style. 
 
 ### Installing
 
 ```sh
-$ composer require --dev malukenho/kawaii-gherkin
+$ composer require --dev pedrotroller/kawaii
 ```
 
 ### Analyzing code
@@ -22,7 +16,7 @@ $ composer require --dev malukenho/kawaii-gherkin
 To analyze code style, simple run:
 
 ```sh
-$ vendor/bin/kawaii gherkin:check [--align [right|left]] <directory>
+$ vendor/bin/kawaii check [--align [right|left]] <directory>
 ```
 
 ### Fixing code
@@ -30,7 +24,7 @@ $ vendor/bin/kawaii gherkin:check [--align [right|left]] <directory>
 To fix code style, simple run:
 
 ```sh
-$ vendor/bin/kawaii gherkin:fix [--align [right|left]] <directory>
+$ vendor/bin/kawaii fix [--align [right|left]] <directory>
 ```
 
 # Example
@@ -88,6 +82,6 @@ Feature: User registration
             | customer@email.com | Jan Kowalski, Wawel 5 , 31-001, Kraków, Poland |
 ```
 
-### Author
+### Maintainer
 
-- Jefersson Nathan ([@malukenho](http://github.com/malukenho))
+- Pierre PLAZANET ([@pedrotroller](http://github.com/pedrotroller))

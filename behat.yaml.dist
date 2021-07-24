@@ -1,0 +1,6 @@
+---
+default:
+  suites:
+    fix:
+      paths:
+        - '%paths.base%/features/fix.feature'

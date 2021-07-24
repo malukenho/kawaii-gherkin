@@ -1,0 +1,659 @@
+@xml
+Feature: List next departures
+    Background:
+        Given the parameters file:
+            """
+            parameters:
+                data_file_stop.ttl: 30
+                data_file_stop.expiration: 120
+                data_file_stop.pattern: '%s.json'
+                admin.whitelist: null
+            """
+        And a valid api key "YOLO"
+        And the file named "ANDBB-1.json" contains:
+            """
+            {"stop": {
+                "mnemoc": "ANDB",
+                "update": "2017-06-20 09:17:39",
+                "mnemol": "ANDBB-1",
+                "lines": {"line": {
+                    "ref": "ANDBB-1-050-R",
+                    "sens": {
+                        "label": "Bois De Plante",
+                        "direction": 1
+                    },
+                    "mnemo": 50,
+                    "arrivals": {"arrival": [
+                        {
+                            "time": "2017-06-20 09:17:43",
+                            "fiable": 0,
+                            "vehicle": {
+                                "ref": 356,
+                                "x": 0.7787719613927754,
+                                "y": 47.38890618548031
+                            }
+                        },
+                        {
+                            "time": "2017-06-20 09:47:53",
+                            "fiable": 0,
+                            "vehicle": {
+                                "ref": 352,
+                                "x": 0.6857738318171535,
+                                "y": 47.389622712470874
+                            }
+                        }
+                    ]}
+                }}
+            }}
+            """
+        And I make sure that file "ANDBB-1.json" is not in the cache
+
+    Scenario: Get departures for a stop
+        Given I prepare a GET request on "/xml/"
+        And for the command "getbusnextdepartures"
+        And with the api key "YOLO"
+        And with the version "1.0"
+        And for the stop "ANDBB-1"
+        And for the route "50"
+        And for the direction "1"
+        When I send the request
+        Then I should receive a 200 response
+        And the response should contains the following xml:
+            """
+            <?xml version="1.0"?>
+            <opendata>
+                <request>http://localhost/xml/?cmd=getbusnextdepartures&amp;key=YOLO&amp;param%5Bdirection%5D%5B0%5D=1&amp;param%5Broute%5D%5B0%5D=50&amp;param%5Bstop%5D%5B0%5D=ANDBB-1&amp;version=1.0</request>
+                <answer>
+                    <status code="0" message="La commande s’est déroulée avec succès"/>
+                    <data>
+                        <stopline>
+                            <stop>ANDBB-1</stop>
+                            <route>50</route>
+                            <direction>1</direction>
+                            <departures>
+                                <departure accurate="0" headsign="Bois De Plante" vehicle="356" expected="2017-06-20T09:17:43">
+                                    2017-06-20T09:17:43
+                                </departure>
+                                <departure accurate="0" headsign="Bois De Plante" vehicle="352" expected="2017-06-20T09:47:53">
+                                    2017-06-20T09:47:53
+                                </departure>
+                            </departures>
+                        </stopline>
+                    </data>
+                </answer>
+            </opendata>
+            """
+        And 1 api call should have been created
+
+    Scenario: Get departures from combination of files
+        Given the file named "BONAB-1B.json" contains:
+            """
+            {"stop": {
+                "mnemoc": "BONA",
+                "update": "2017-06-20 09:17:39",
+                "mnemol": "BONAB-1B",
+                "lines": {"line": [
+                    {
+                        "ref": "BONAB-1B-035-A",
+                        "sens": {
+                            "label": "Parc Grandmont",
+                            "direction": 0
+                        },
+                        "mnemo": 35,
+                        "arrivals": {"arrival": {
+                            "time": "2017-06-20 09:54:10",
+                            "fiable": 0,
+                            "vehicle": {
+                                "ref": "",
+                                "x": 0,
+                                "y": 0
+                            }
+                        }}
+                    },
+                    {
+                      "ref": "BONAB-1B-005-A",
+                      "sens": {
+                          "label": "Parc Grandmont",
+                          "direction": 0
+                      },
+                      "mnemo": 5,
+                      "arrivals": {"arrival": [
+                          {
+                              "time": "2017-06-20 09:18:16",
+                              "fiable": 1,
+                              "vehicle": {
+                                  "ref": 625,
+                                  "x": 0.6986022705438643,
+                                  "y": 47.3554090771515
+                              }
+                          },
+                          {
+                              "time": "2017-06-20 09:25:38",
+                              "fiable": 0,
+                              "vehicle": {
+                                  "ref": 635,
+                                  "x": 0.6869106923781686,
+                                  "y": 47.37085293178187
+                              }
+                          }
+                      ]}
+                    }
+                ]}
+            }}
+            """
+        And I prepare a GET request on "/xml/"
+        And for the command "getbusnextdepartures"
+        And with the api key "YOLO"
+        And with the version "1.0"
+        And for the stop "ANDBB-1"
+        And for the route "50"
+        And for the direction "1"
+        And for the stop "BONAB-1B"
+        And for the route "5"
+        And for the direction "0"
+        When I send the request
+        Then I should receive a 200 response
+        And the response should contains the following xml:
+            """
+            <?xml version="1.0"?>
+            <opendata>
+                <request>http://localhost/xml/?cmd=getbusnextdepartures&amp;key=YOLO&amp;param%5Bdirection%5D%5B0%5D=1&amp;param%5Bdirection%5D%5B1%5D=0&amp;param%5Broute%5D%5B0%5D=50&amp;param%5Broute%5D%5B1%5D=5&amp;param%5Bstop%5D%5B0%5D=ANDBB-1&amp;param%5Bstop%5D%5B1%5D=BONAB-1B&amp;version=1.0</request>
+                <answer>
+                    <status code="0" message="La commande s’est déroulée avec succès"/>
+                    <data>
+                        <stopline>
+                            <stop>ANDBB-1</stop>
+                            <route>50</route>
+                            <direction>1</direction>
+                            <departures>
+                                <departure accurate="0" headsign="Bois De Plante" vehicle="356" expected="2017-06-20T09:17:43">
+                                    2017-06-20T09:17:43
+                                </departure>
+                                <departure accurate="0" headsign="Bois De Plante" vehicle="352" expected="2017-06-20T09:47:53">
+                                    2017-06-20T09:47:53
+                                </departure>
+                            </departures>
+                        </stopline>
+                        <stopline>
+                            <stop>BONAB-1B</stop>
+                            <route>5</route>
+                            <direction>0</direction>
+                            <departures>
+                                <departure accurate="1" headsign="Parc Grandmont" vehicle="625" expected="2017-06-20T09:18:16">
+                                    2017-06-20T09:18:16
+                                </departure>
+                                <departure accurate="0" headsign="Parc Grandmont" vehicle="635" expected="2017-06-20T09:25:38">
+                                    2017-06-20T09:25:38
+                                </departure>
+                            </departures>
+                        </stopline>
+                    </data>
+                </answer>
+            </opendata>
+            """
+        And 1 api call should have been created
+
+    Scenario: The api key is unknown
+        Given I prepare a GET request on "/xml/"
+        And for the command "getbusnextdepartures"
+        And with the api key "FOO"
+        And with the version "1.0"
+        And for the stop "ANDBB-1"
+        And for the route "50"
+        And for the direction "1"
+        When I send the request
+        Then I should receive a 200 response
+        And the response should contains the following xml:
+            """
+            <?xml version="1.0"?>
+            <opendata>
+                <request>http://localhost/xml/?cmd=getbusnextdepartures&amp;key=FOO&amp;param%5Bdirection%5D%5B0%5D=1&amp;param%5Broute%5D%5B0%5D=50&amp;param%5Bstop%5D%5B0%5D=ANDBB-1&amp;version=1.0</request>
+                <answer>
+                    <status code="1" message="La clé est invalide"/>
+                </answer>
+            </opendata>
+            """
+
+    Scenario: The api key is missing
+        Given an outdated api key "FOO"
+        And I prepare a GET request on "/xml/"
+        And for the command "getbusnextdepartures"
+        And with the version "1.0"
+        And for the stop "ANDBB-1"
+        And for the route "50"
+        And for the direction "1"
+        When I send the request
+        Then I should receive a 200 response
+        And the response should contains the following xml:
+            """
+            <?xml version="1.0"?>
+            <opendata>
+                <request>http://localhost/xml/?cmd=getbusnextdepartures&amp;param%5Bdirection%5D%5B0%5D=1&amp;param%5Broute%5D%5B0%5D=50&amp;param%5Bstop%5D%5B0%5D=ANDBB-1&amp;version=1.0</request>
+                <answer>
+                    <status code="4" message="La clé est vide"/>
+                </answer>
+            </opendata>
+            """
+
+    Scenario: The file if outdated
+        Given the file named "ANDBB-1.json" have been created 10 minutes ago
+        And I prepare a GET request on "/xml/"
+        And for the command "getbusnextdepartures"
+        And with the api key "YOLO"
+        And with the version "1.0"
+        And for the stop "ANDBB-1"
+        And for the route "50"
+        And for the direction "1"
+        When I send the request
+        Then I should receive a 200 response
+        And the response should contains the following xml:
+            """
+            <?xml version="1.0"?>
+            <opendata>
+                <request>http://localhost/xml/?cmd=getbusnextdepartures&amp;key=YOLO&amp;param%5Bdirection%5D%5B0%5D=1&amp;param%5Broute%5D%5B0%5D=50&amp;param%5Bstop%5D%5B0%5D=ANDBB-1&amp;version=1.0</request>
+                <answer>
+                    <status code="113" message="Un des fichiers utilisé est trop vieux"/>
+                </answer>
+            </opendata>
+            """
+        And 1 api call should have been created
+
+    Scenario: Some but not all the files are outdated
+        Given the file named "ANDBB-1.json" have been created 10 minutes ago
+        And the file named "BONAB-1B.json" contains:
+            """
+            {"stop": {
+                "mnemoc": "BONA",
+                "update": "2017-06-20 09:17:39",
+                "mnemol": "BONAB-1B",
+                "lines": {"line": [
+                    {
+                        "ref": "BONAB-1B-035-A",
+                        "sens": {
+                            "label": "Parc Grandmont",
+                            "direction": 0
+                        },
+                        "mnemo": 35,
+                        "arrivals": {"arrival": {
+                            "time": "2017-06-20 09:54:10",
+                            "fiable": 0,
+                            "vehicle": {
+                                "ref": "",
+                                "x": 0,
+                                "y": 0
+                            }
+                        }}
+                    },
+                    {
+                      "ref": "BONAB-1B-005-A",
+                      "sens": {
+                          "label": "Parc Grandmont",
+                          "direction": 0
+                      },
+                      "mnemo": 5,
+                      "arrivals": {"arrival": [
+                          {
+                              "time": "2017-06-20 09:18:16",
+                              "fiable": 1,
+                              "vehicle": {
+                                  "ref": 625,
+                                  "x": 0.6986022705438643,
+                                  "y": 47.3554090771515
+                              }
+                          },
+                          {
+                              "time": "2017-06-20 09:25:38",
+                              "fiable": 0,
+                              "vehicle": {
+                                  "ref": 635,
+                                  "x": 0.6869106923781686,
+                                  "y": 47.37085293178187
+                              }
+                          }
+                      ]}
+                    }
+                ]}
+            }}
+            """
+        And I prepare a GET request on "/xml/"
+        And for the command "getbusnextdepartures"
+        And with the api key "YOLO"
+        And with the version "1.0"
+        And for the stop "ANDBB-1"
+        And for the route "50"
+        And for the direction "1"
+        And for the stop "BONAB-1B"
+        And for the route "5"
+        And for the direction "0"
+        When I send the request
+        Then I should receive a 200 response
+        And the response should contains the following xml:
+            """
+            <?xml version="1.0"?>
+            <opendata>
+                <request>http://localhost/xml/?cmd=getbusnextdepartures&amp;key=YOLO&amp;param%5Bdirection%5D%5B0%5D=1&amp;param%5Bdirection%5D%5B1%5D=0&amp;param%5Broute%5D%5B0%5D=50&amp;param%5Broute%5D%5B1%5D=5&amp;param%5Bstop%5D%5B0%5D=ANDBB-1&amp;param%5Bstop%5D%5B1%5D=BONAB-1B&amp;version=1.0</request>
+                <answer>
+                    <status code="0" message="La commande s’est déroulée avec succès"/>
+                    <data>
+                        <stopline>
+                            <stop>BONAB-1B</stop>
+                            <route>5</route>
+                            <direction>0</direction>
+                            <departures>
+                                <departure accurate="1" headsign="Parc Grandmont" vehicle="625" expected="2017-06-20T09:18:16">
+                                    2017-06-20T09:18:16
+                                </departure>
+                                <departure accurate="0" headsign="Parc Grandmont" vehicle="635" expected="2017-06-20T09:25:38">
+                                    2017-06-20T09:25:38
+                                </departure>
+                            </departures>
+                        </stopline>
+                    </data>
+                </answer>
+            </opendata>
+            """
+
+    Scenario: Get departures from combination of files when some but not all the files are outdated
+        Given the file named "BONAB-1B.json" contains:
+            """
+            {"stop": {
+                "mnemoc": "BONA",
+                "update": "2017-06-20 09:17:39",
+                "mnemol": "BONAB-1B",
+                "lines": {"line": [
+                    {
+                        "ref": "BONAB-1B-035-A",
+                        "sens": {
+                            "label": "Parc Grandmont",
+                            "direction": 0
+                        },
+                        "mnemo": 35,
+                        "arrivals": {"arrival": {
+                            "time": "2017-06-20 09:54:10",
+                            "fiable": 0,
+                            "vehicle": {
+                                "ref": "",
+                                "x": 0,
+                                "y": 0
+                            }
+                        }}
+                    },
+                    {
+                      "ref": "BONAB-1B-005-A",
+                      "sens": {
+                          "label": "Parc Grandmont",
+                          "direction": 0
+                      },
+                      "mnemo": 5,
+                      "arrivals": {"arrival": [
+                          {
+                              "time": "2017-06-20 09:18:16",
+                              "fiable": 1,
+                              "vehicle": {
+                                  "ref": 625,
+                                  "x": 0.6986022705438643,
+                                  "y": 47.3554090771515
+                              }
+                          },
+                          {
+                              "time": "2017-06-20 09:25:38",
+                              "fiable": 0,
+                              "vehicle": {
+                                  "ref": 635,
+                                  "x": 0.6869106923781686,
+                                  "y": 47.37085293178187
+                              }
+                          }
+                      ]}
+                    }
+                ]}
+            }}
+            """
+        And I prepare a GET request on "/xml/"
+        And for the command "getbusnextdepartures"
+        And with the api key "YOLO"
+        And with the version "1.0"
+        And for the stop "ANDBB-1"
+        And for the route "50"
+        And for the direction "1"
+        And for the stop "BONAB-1B"
+        And for the route "5"
+        And for the direction "0"
+        When I send the request
+        Then I should receive a 200 response
+        And the response should contains the following xml:
+            """
+            <?xml version="1.0"?>
+            <opendata>
+                <request>http://localhost/xml/?cmd=getbusnextdepartures&amp;key=YOLO&amp;param%5Bdirection%5D%5B0%5D=1&amp;param%5Bdirection%5D%5B1%5D=0&amp;param%5Broute%5D%5B0%5D=50&amp;param%5Broute%5D%5B1%5D=5&amp;param%5Bstop%5D%5B0%5D=ANDBB-1&amp;param%5Bstop%5D%5B1%5D=BONAB-1B&amp;version=1.0</request>
+                <answer>
+                    <status code="0" message="La commande s’est déroulée avec succès"/>
+                    <data>
+                        <stopline>
+                            <stop>ANDBB-1</stop>
+                            <route>50</route>
+                            <direction>1</direction>
+                            <departures>
+                                <departure accurate="0" headsign="Bois De Plante" vehicle="356" expected="2017-06-20T09:17:43">
+                                    2017-06-20T09:17:43
+                                </departure>
+                                <departure accurate="0" headsign="Bois De Plante" vehicle="352" expected="2017-06-20T09:47:53">
+                                    2017-06-20T09:47:53
+                                </departure>
+                            </departures>
+                        </stopline>
+                        <stopline>
+                            <stop>BONAB-1B</stop>
+                            <route>5</route>
+                            <direction>0</direction>
+                            <departures>
+                                <departure accurate="1" headsign="Parc Grandmont" vehicle="625" expected="2017-06-20T09:18:16">
+                                    2017-06-20T09:18:16
+                                </departure>
+                                <departure accurate="0" headsign="Parc Grandmont" vehicle="635" expected="2017-06-20T09:25:38">
+                                    2017-06-20T09:25:38
+                                </departure>
+                            </departures>
+                        </stopline>
+                    </data>
+                </answer>
+            </opendata>
+            """
+        And 1 api call should have been created
+
+    Scenario: The route is unknown
+        Given I prepare a GET request on "/xml/"
+        And for the command "getbusnextdepartures"
+        And with the api key "YOLO"
+        And with the version "1.0"
+        And for the stop "ANDBB-1"
+        And for the route "unknown"
+        And for the direction "1"
+        When I send the request
+        Then I should receive a 200 response
+        And the response should contains the following xml:
+            """
+            <?xml version="1.0"?>
+            <opendata>
+                <request>http://localhost/xml/?cmd=getbusnextdepartures&amp;key=YOLO&amp;param%5Bdirection%5D%5B0%5D=1&amp;param%5Broute%5D%5B0%5D=unknown&amp;param%5Bstop%5D%5B0%5D=ANDBB-1&amp;version=1.0</request>
+                <answer>
+                    <status code="101" message="La route n'existe pas"/>
+                </answer>
+            </opendata>
+            """
+        And 1 api call should have been created
+
+    Scenario: Some but not all the routes are unknown
+        Given I prepare a GET request on "/xml/"
+        And for the command "getbusnextdepartures"
+        And with the api key "YOLO"
+        And with the version "1.0"
+        And for the stop "ANDBB-1"
+        And for the route "50"
+        And for the direction "1"
+        And for the stop "unknown"
+        And for the route "50"
+        And for the direction "1"
+        When I send the request
+        Then I should receive a 200 response
+        And the response should contains the following xml:
+            """
+            <?xml version="1.0"?>
+            <opendata>
+            <request>http://localhost/xml/?cmd=getbusnextdepartures&amp;key=YOLO&amp;param%5Bdirection%5D%5B0%5D=1&amp;param%5Bdirection%5D%5B1%5D=1&amp;param%5Broute%5D%5B0%5D=50&amp;param%5Broute%5D%5B1%5D=50&amp;param%5Bstop%5D%5B0%5D=ANDBB-1&amp;param%5Bstop%5D%5B1%5D=unknown&amp;version=1.0</request>
+                <answer>
+                    <status code="0" message="La commande s’est déroulée avec succès"/>
+                    <data>
+                        <stopline>
+                            <stop>ANDBB-1</stop>
+                            <route>50</route>
+                            <direction>1</direction>
+                            <departures>
+                                <departure accurate="0" headsign="Bois De Plante" vehicle="356" expected="2017-06-20T09:17:43">
+                                    2017-06-20T09:17:43
+                                </departure>
+                                <departure accurate="0" headsign="Bois De Plante" vehicle="352" expected="2017-06-20T09:47:53">
+                                    2017-06-20T09:47:53
+                                </departure>
+                            </departures>
+                        </stopline>
+                    </data>
+                </answer>
+            </opendata>
+            """
+        And 1 api call should have been created
+
+    Scenario: The stop is unknown
+        Given I prepare a GET request on "/xml/"
+        And for the command "getbusnextdepartures"
+        And with the api key "YOLO"
+        And with the version "1.0"
+        And for the stop "unknown"
+        And for the route "50"
+        And for the direction "1"
+        When I send the request
+        Then I should receive a 200 response
+        And the response should contains the following xml:
+            """
+            <?xml version="1.0"?>
+            <opendata>
+                <request>http://localhost/xml/?cmd=getbusnextdepartures&amp;key=YOLO&amp;param%5Bdirection%5D%5B0%5D=1&amp;param%5Broute%5D%5B0%5D=50&amp;param%5Bstop%5D%5B0%5D=unknown&amp;version=1.0</request>
+                <answer>
+                    <status code="101" message="La route n'existe pas"/>
+                </answer>
+            </opendata>
+            """
+        And 1 api call should have been created
+
+    Scenario: The direction is unknown
+        Given the file named "BONAB-1B.json" contains:
+            """
+            {"stop": {
+                "mnemoc": "BONA",
+                "update": "2017-06-20 09:17:39",
+                "mnemol": "BONAB-1B",
+                "lines": {"line": [
+                    {
+                        "ref": "BONAB-1B-035-A",
+                        "sens": {
+                            "label": "Parc Grandmont",
+                            "direction": 0
+                        },
+                        "mnemo": 35,
+                        "arrivals": {"arrival": {
+                            "time": "2017-06-20 09:54:10",
+                            "fiable": 0,
+                            "vehicle": {
+                                "ref": "",
+                                "x": 0,
+                                "y": 0
+                            }
+                        }}
+                    },
+                    {
+                      "ref": "BONAB-1B-005-A",
+                      "sens": {
+                          "label": "Parc Grandmont",
+                          "direction": 0
+                      },
+                      "mnemo": 5,
+                      "arrivals": {"arrival": [
+                          {
+                              "time": "2017-06-20 09:18:16",
+                              "fiable": 1,
+                              "vehicle": {
+                                  "ref": 625,
+                                  "x": 0.6986022705438643,
+                                  "y": 47.3554090771515
+                              }
+                          },
+                          {
+                              "time": "2017-06-20 09:25:38",
+                              "fiable": 0,
+                              "vehicle": {
+                                  "ref": 635,
+                                  "x": 0.6869106923781686,
+                                  "y": 47.37085293178187
+                              }
+                          }
+                      ]}
+                    }
+                ]}
+            }}
+            """
+        And I prepare a GET request on "/xml/"
+        And for the command "getbusnextdepartures"
+        And with the api key "YOLO"
+        And with the version "1.0"
+        And for the stop "ANDBB-1"
+        And for the route "50"
+        And for the direction "1"
+        And for the stop "BONAB-1B"
+        And for the route "5"
+        And for the direction "unknown"
+        When I send the request
+        Then I should receive a 200 response
+        And the response should contains the following xml:
+            """
+            <?xml version="1.0"?>
+            <opendata>
+                <request>http://localhost/xml/?cmd=getbusnextdepartures&amp;key=YOLO&amp;param%5Bdirection%5D%5B0%5D=1&amp;param%5Bdirection%5D%5B1%5D=unknown&amp;param%5Broute%5D%5B0%5D=50&amp;param%5Broute%5D%5B1%5D=5&amp;param%5Bstop%5D%5B0%5D=ANDBB-1&amp;param%5Bstop%5D%5B1%5D=BONAB-1B&amp;version=1.0</request>
+                <answer>
+                    <status code="0" message="La commande s’est déroulée avec succès"/>
+                    <data>
+                        <stopline>
+                            <stop>ANDBB-1</stop>
+                            <route>50</route>
+                            <direction>1</direction>
+                            <departures>
+                                <departure accurate="0" headsign="Bois De Plante" vehicle="356" expected="2017-06-20T09:17:43">
+                                    2017-06-20T09:17:43
+                                </departure>
+                                <departure accurate="0" headsign="Bois De Plante" vehicle="352" expected="2017-06-20T09:47:53">
+                                    2017-06-20T09:47:53
+                                </departure>
+                            </departures>
+                        </stopline>
+                    </data>
+                </answer>
+            </opendata>
+            """
+        And 1 api call should have been created
+
+    Scenario: The command is unkown
+        Given I prepare a GET request on "/xml/"
+        And for the command "unkown"
+        And with the api key "YOLO"
+        And with the version "1.0"
+        When I send the request
+        Then I should receive a 200 response
+        And the response should contains the following xml:
+            """
+            <?xml version="1.0"?>
+            <opendata>
+                <request>http://localhost/xml/?cmd=unkown&amp;key=YOLO&amp;version=1.0</request>
+                <answer>
+                    <status code="3" message="La commande est invalide"/>
+                </answer>
+            </opendata>
+            """

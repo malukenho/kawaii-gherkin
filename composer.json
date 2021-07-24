@@ -1,39 +1,42 @@
 {
-  "name": "malukenho/kawaii-gherkin",
+  "name": "pedrotroller/kawaii-gherkin",
   "description": "A small library to check and fix annoying gherkin code style",
-  "type": "library",
   "license": "MIT",
-  "homepage": "https://github.com/malukenho/kawaii-gherkin",
+  "type": "library",
   "keywords": [
-    "gherkin",
     "code standard",
-    "code style"
+    "code style",
+    "formatting",
+    "gherkin"
   ],
   "authors": [
+    {
+      "name": "PedroTroller",
+      "homepage": "https://github.com/PedroTroller"
+    },
     {
       "name": "Jefersson Nathan",
       "email": "malukenho@phpse.net"
     }
   ],
+  "homepage": "https://github.com/pedrotroller/kawaii-gherkin",
+  "require": {
+    "php": "7.4.* || 8.0.* || 8.1.*",
+    "behat/gherkin": "^4.9",
+    "sebastian/diff": "^4.0",
+    "symfony/console": "4.4.* || 5.4.* || 6.0.*",
+    "symfony/finder": "4.4.* || 5.4.* || 6.0.*"
+  },
+  "require-dev": {
+    "behat/behat": "^3.10",
+    "pedrotroller/php-cs-custom-fixer": "^2.27",
+    "phpstan/phpstan": "^1.4",
+    "phpstan/phpstan-symfony": "^1.1"
+  },
   "autoload": {
     "psr-4": {
       "KawaiiGherkin\\": "src/"
     }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "KawaiiGherkinTest\\": "tests/"
-    }
-  },
-  "require": {
-    "php": "~5.5|^7.0",
-    "behat/gherkin": "^4.4",
-    "sebastian/diff": "^3.0|^4.0",
-    "symfony/console": "^2.0|^3.0|^4.0",
-    "symfony/finder": "^2.0|^3.0|^4.0"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "^7.0"
   },
   "bin": [
     "bin/kawaii"
