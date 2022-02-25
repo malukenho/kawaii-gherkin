@@ -1,53 +1,35 @@
 <?php
-/*
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license.
- */
+
+declare(strict_types=1);
 
 namespace KawaiiGherkin\Formatter;
 
 use Behat\Gherkin\Node\FeatureNode;
 
-/**
- * @author Jefersson Nathan  <malukenho@phpse.net>
- * @license MIT
- */
-final class FeatureDescription extends AbstractFormatter
+final class FeatureDescription
 {
-    /**
-     * @param FeatureNode $feature
-     *
-     * @return string
-     */
-    public function format(FeatureNode $feature)
+    private Indentation $indentation;
+
+    public function __construct(Indentation $indentation)
     {
-        $shortDesc = $feature->getKeyword() . ': ' . $feature->getTitle() . "\n";
+        $this->indentation = $indentation;
+    }
 
-        if (! $feature->hasDescription()) {
-            return rtrim($shortDesc);
+    /**
+     * @return iterable<string>
+     */
+    public function format(FeatureNode $feature): iterable
+    {
+        yield $feature->getKeyword();
+        yield ': ';
+        yield (string) $feature->getTitle();
+
+        if ($feature->hasDescription()) {
+            foreach (explode("\n", (string) $feature->getDescription()) as $descriptionLine) {
+                yield "\n";
+                yield from $this->indentation->format(1);
+                yield trim($descriptionLine);
+            }
         }
-
-        $longDesc = implode(
-            array_map(
-                function ($descriptionLine) {
-                    return $this->indent() . trim($descriptionLine) . "\n";
-                },
-                explode("\n", $feature->getDescription())
-            )
-        );
-
-        return $shortDesc . rtrim($longDesc);
     }
 }
