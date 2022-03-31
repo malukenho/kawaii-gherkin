@@ -27,13 +27,13 @@
   },
   "require": {
     "php": "~5.5|^7.0|^8.0",
-    "behat/gherkin": "^4.4",
-    "sebastian/diff": "^3.0|^4.0",
-    "symfony/console": "^2.0|^3.0|^4.0",
-    "symfony/finder": "^2.0|^3.0|^4.0"
+    "behat/gherkin": ">=4.4",
+    "sebastian/diff": ">=3.0",
+    "symfony/console": ">=2.0",
+    "symfony/finder": ">=2.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^7.0"
+    "phpunit/phpunit": ">=4.0"
   },
   "bin": [
     "bin/kawaii"
