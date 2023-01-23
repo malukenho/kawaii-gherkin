@@ -35,8 +35,11 @@ final class Steps
             }
 
             yield trim($step->getKeyword());
+
             yield ' ';
+
             yield trim($step->getText());
+
             yield "\n";
 
             if (false === $step->hasArguments()) {
@@ -47,27 +50,35 @@ final class Steps
                 if ($argument instanceof TableNode) {
                     foreach (explode("\n", $argument->getTableAsString()) as $row) {
                         yield from $this->indentation->format(3);
+
                         yield trim($row);
+
                         yield "\n";
                     }
                 }
 
                 if ($argument instanceof PyStringNode) {
                     yield from $this->indentation->format(2, 2);
+
                     yield '"""';
+
                     yield "\n";
                     foreach ($argument->getStrings() as $string) {
                         $string = rtrim($string);
 
                         if ('' !== $string) {
                             yield from $this->indentation->format(2, 2);
+
                             yield rtrim($string);
                         }
 
                         yield "\n";
                     }
+
                     yield from $this->indentation->format(2, 2);
+
                     yield '"""';
+
                     yield "\n";
                 }
             }

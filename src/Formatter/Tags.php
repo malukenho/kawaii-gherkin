@@ -18,11 +18,14 @@ final class Tags
         }
 
         yield '@';
+
         yield trim(array_shift($tags));
 
         while (false === empty($tags)) {
             yield ' ';
+
             yield '@';
+
             yield trim((string) array_shift($tags));
         }
     }

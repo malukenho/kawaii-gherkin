@@ -38,8 +38,11 @@ final class Scenarios
     {
         foreach ($scenarios as $scenario) {
             yield from $this->getTags($scenario);
+
             yield from $this->getScenarioDescription($scenario);
+
             yield from $this->getSteps($scenario);
+
             yield from $this->getExamples($scenario);
         }
 
@@ -53,6 +56,7 @@ final class Scenarios
     {
         if ($scenario->hasTags()) {
             yield from $this->tags->format($scenario->getTags());
+
             yield "\n";
         }
     }
@@ -64,6 +68,7 @@ final class Scenarios
     {
         if ($scenario->hasSteps()) {
             yield from $this->steps->format($scenario->getSteps());
+
             yield "\n";
         }
     }
@@ -84,8 +89,11 @@ final class Scenarios
     private function getScenarioDescription(ScenarioInterface $scenario): iterable
     {
         yield from $this->indentation->format(1);
+
         yield $scenario->getKeyword();
+
         yield ': ';
+
         yield from $this->getTitleLines($scenario);
 
         yield "\n";

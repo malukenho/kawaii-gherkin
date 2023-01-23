@@ -39,7 +39,9 @@ final class Feature
 
         if (false === \in_array($feature->getLanguage(), ['', 'en'], true)) {
             yield '# language: ';
+
             yield $feature->getLanguage();
+
             yield "\n";
         }
 
@@ -48,6 +50,7 @@ final class Feature
                 ->tags
                 ->format($feature->getTags())
             ;
+
             yield "\n";
         }
 
@@ -55,7 +58,9 @@ final class Feature
             ->featureDescription
             ->format($feature)
         ;
+
         yield "\n";
+
         yield "\n";
 
         if ($feature->hasBackground()) {
@@ -63,6 +68,7 @@ final class Feature
                 ->background
                 ->format($feature->getBackground())
             ;
+
             yield "\n";
         }
 

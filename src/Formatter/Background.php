@@ -28,10 +28,15 @@ final class Background
         }
 
         yield from $this->indentation->format(1);
+
         yield $background->getKeyword();
+
         yield ': ';
+
         yield (string) $background->getTitle();
+
         yield "\n";
+
         yield from $this->steps->format($background->getSteps());
     }
 }

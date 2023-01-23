@@ -21,13 +21,17 @@ final class FeatureDescription
     public function format(FeatureNode $feature): iterable
     {
         yield $feature->getKeyword();
+
         yield ': ';
+
         yield (string) $feature->getTitle();
 
         if ($feature->hasDescription()) {
             foreach (explode("\n", (string) $feature->getDescription()) as $descriptionLine) {
                 yield "\n";
+
                 yield from $this->indentation->format(1);
+
                 yield trim($descriptionLine);
             }
         }

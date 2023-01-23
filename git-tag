@@ -1,0 +1,39 @@
+#!/usr/bin/php
+<?php
+
+$tags = explode("\n", `git tag -l`);
+uasort($tags, 'version_compare');
+
+$latest = end($tags) ?: 'v0.0.0';
+$vPrefixe = $latest !== ltrim($latest, 'v');
+
+$parts = explode('.', ltrim($latest, 'v'));
+
+if (2 !== count($argv)) {
+    throw new \Exception('You should provide an option "major", "minor" or "fix".');
+}
+
+switch (strtolower(end($argv))) {
+    case 'major':
+        $parts[0]++;
+        $parts[1] = 0;
+        $parts[2] = 0;
+        break;
+    case 'minor':
+        $parts[1]++;
+        $parts[2] = 0;
+        break;
+    case 'fix':
+        $parts[2]++;
+        break;
+}
+
+$new = sprintf('%s%s', $vPrefixe ? 'v' : '', implode('.', $parts));
+$command = sprintf('git tag -a %s -m %s', $new, $new);
+
+exec($command);
+
+echo "\n";
+echo sprintf('run: git push origin %s', $new, $new);
+echo "\n";
+echo "\n";

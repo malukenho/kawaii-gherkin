@@ -25,13 +25,18 @@ final class Examples
         }
 
         yield from $this->indentation->format(2);
+
         yield rtrim($scenario->getExampleTable()->getKeyword());
+
         yield ':';
+
         yield "\n";
 
         foreach (explode("\n", $scenario->getExampleTable()->getTableAsString()) as $arguments) {
             yield from $this->indentation->format(2, 2);
+
             yield trim($arguments);
+
             yield "\n";
         }
 

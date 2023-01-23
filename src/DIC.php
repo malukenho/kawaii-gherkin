@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace KawaiiGherkin;
 
-use Exception;
-
 final class DIC
 {
     /**
@@ -45,7 +43,7 @@ final class DIC
         }
 
         if (false === \array_key_exists($className, $this->serviceResolvers)) {
-            throw new Exception("Service \"{$className}\" is not a registered.");
+            throw new \Exception("Service \"{$className}\" is not a registered.");
         }
 
         /**
@@ -82,7 +80,7 @@ final class DIC
         }
 
         if (false === \array_key_exists($name, $this->parameterResolvers)) {
-            throw new Exception("Parameter \"{$name}\" is not a registered.");
+            throw new \Exception("Parameter \"{$name}\" is not a registered.");
         }
 
         return $this->resolvedParameters[$name] = $this->parameterResolvers[$name]($this);
