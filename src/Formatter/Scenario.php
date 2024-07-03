@@ -132,7 +132,7 @@ final class Scenario extends AbstractFormatter
     {
         return array_map(
             'trim',
-            explode("\n", $scenario->getTitle())
+            explode("\n", (string) $scenario->getTitle())
         );
     }
 }

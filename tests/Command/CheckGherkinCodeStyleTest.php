@@ -59,7 +59,7 @@ final class CheckGherkinCodeStyleTest extends TestCase
             ]
         );
 
-        self::assertRegExp('/Everything is OK!/', $commandTester->getDisplay());
+        self::assertMatchesRegularExpression('/Everything is OK!/', $commandTester->getDisplay());
     }
 
     public function testShouldReturnErrorIfThereIsFilesWithWrongStyle()
@@ -133,8 +133,8 @@ final class CheckGherkinCodeStyleTest extends TestCase
             ]
         );
 
-        self::assertRegExp('/Wrong style/', $commandTester->getDisplay());
-        self::assertNotRegExp('/I need to be able to create an account in the store/', $commandTester->getDisplay());
+        self::assertMatchesRegularExpression('/Wrong style/', $commandTester->getDisplay());
+        self::assertDoesNotMatchRegularExpression('/I need to be able to create an account in the store/', $commandTester->getDisplay());
     }
 
     /**

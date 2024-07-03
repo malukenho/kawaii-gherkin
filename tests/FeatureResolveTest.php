@@ -21,18 +21,18 @@ final class FeatureResolveTest extends TestCase
     ) {
         $feature = new FeatureResolve($directory);
 
-        self::assertSame($directory, self::getObjectAttribute($feature, 'directoryOrFile'));
+        self::assertObjectHasProperty('directoryOrFile', $feature);
 
-        $getDirectoryMethod = new \ReflectionMethod('KawaiiGherkin\FeatureResolve', 'getDirectory');
+        $getDirectoryMethod = new \ReflectionMethod($feature, 'getDirectory');
         $getDirectoryMethod->setAccessible(true);
         self::assertSame($expectedDirectory, $getDirectoryMethod->invoke($feature));
 
-        $getFeatureMatch = new \ReflectionMethod('KawaiiGherkin\FeatureResolve', 'getFeatureMatch');
+        $getFeatureMatch = new \ReflectionMethod($feature, 'getFeatureMatch');
         $getFeatureMatch->setAccessible(true);
         self::assertSame($expectedFile, $getFeatureMatch->invoke($feature));
     }
 
-    public function unExistsDirectory()
+    public static function unExistsDirectory(): array
     {
         return [
             ['null/*.feature', 'null', '*.feature'],

@@ -86,7 +86,7 @@ final class CheckGherkinCodeStyle extends Command
      * @throws \RuntimeException
      * @throws ParserException
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $align = $input->getOption('align') === Step::ALIGN_TO_LEFT
             ? Step::ALIGN_TO_LEFT
@@ -127,10 +127,12 @@ final class CheckGherkinCodeStyle extends Command
         }
 
         if (defined('FAILED')) {
-            return 1;
+            return Command::FAILURE;
         }
 
         $output->writeln('<bg=green;fg=white>     Everything is OK!     </>');
+
+        return Command::SUCCESS;
     }
 
     /**

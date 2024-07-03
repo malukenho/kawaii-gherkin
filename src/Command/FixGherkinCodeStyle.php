@@ -80,7 +80,7 @@ final class FixGherkinCodeStyle extends Command
     /**
      * {@inheritDoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $align = $input->getOption('align') === Step::ALIGN_TO_LEFT
             ? Step::ALIGN_TO_LEFT
@@ -109,6 +109,8 @@ final class FixGherkinCodeStyle extends Command
             $filePointer->fwrite($formatted);
 
             $output->writeln('<info>' . $file->getRealPath() . '</info>');
+
+            return Command::SUCCESS;
         }
     }
 }

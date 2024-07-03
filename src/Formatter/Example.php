@@ -33,7 +33,7 @@ final class Example extends AbstractFormatter
      */
     public function format(OutlineNode $scenario)
     {
-        if (! $scenario->hasExamples()) {
+        if (! $scenario->hasExamples() || empty($scenario->getExamples())) {
             return;
         }
 
