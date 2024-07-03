@@ -9,11 +9,16 @@ jobs:
 
     strategy:
       matrix:
-        php: ['8.0', '8.1', '8.2', '8.3']
+        php: ['8.3']
         dependencies: ['normal', 'authoritative']
 
     steps:
       - uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
 
       - name: Install dependencies
         if: matrix.dependencies == 'normal'
