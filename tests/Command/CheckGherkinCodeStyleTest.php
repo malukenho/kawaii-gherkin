@@ -24,23 +24,17 @@ use Behat\Gherkin\Node\StepNode;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Gherkin\Parser;
 use KawaiiGherkin\Command\CheckGherkinCodeStyle;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
-/**
- * Tests for {@see \KawaiiGherkin\Command\CheckGherkinCodeStyle}
- *
- * @author Jefersson Nathan <malukenho@phpse.net>
- * @covers \KawaiiGherkin\Command\CheckGherkinCodeStyle
- * @group Coverage
- * @license MIT
- */
+#[CoversClass(CheckGherkinCodeStyle::class)]
 final class CheckGherkinCodeStyleTest extends TestCase
 {
     public function testShouldReturnOkIfThereIsNoFilesFound()
     {
-        /* @var \Behat\Gherkin\Parser|\PHPUnit_Framework_MockObject_MockObject $parser */
+        /* @var \Behat\Gherkin\Parser|\PHPUnit\Framework\MockObject\MockObject $parser */
         $parser = $this->getMockBuilder(Parser::class)
             ->disableOriginalConstructor()
             ->getMock();

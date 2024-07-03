@@ -1,21 +1,23 @@
 <?xml version="1.0"?>
 <phpunit
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         bootstrap="./vendor/autoload.php"
         colors="true"
-        stopOnFailure="false"
-        processIsolation="false"
-        backupGlobals="false"
         columns="max"
+        xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
+        cacheDirectory=".phpunit.cache"
 >
-    <testsuite name="Kawaii gherkin tests">
-        <directory>./tests</directory>
-    </testsuite>
-    <testsuite name="Kawaii gherkin functional tests">
-        <directory suffix=".phpt">./tests/functional</directory>
-    </testsuite>
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./src</directory>
-        </whitelist>
-    </filter>
+    <testsuites>
+        <testsuite name="Kawaii gherkin tests">
+            <directory>./tests</directory>
+        </testsuite>
+        <testsuite name="Kawaii gherkin functional tests">
+            <directory suffix=".phpt">./tests/functional</directory>
+        </testsuite>
+    </testsuites>
+    <source>
+        <include>
+            <directory>./src</directory>
+        </include>
+    </source>
 </phpunit>

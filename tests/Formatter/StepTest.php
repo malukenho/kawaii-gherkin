@@ -23,26 +23,14 @@ use Behat\Gherkin\Node\ScenarioNode;
 use Behat\Gherkin\Node\StepNode;
 use Behat\Gherkin\Node\TableNode;
 use KawaiiGherkin\Formatter\Step;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Tests for {@see \KawaiiGherkin\Formatter\Step}
- *
- * @author Jefersson Nathan <malukenho@phpse.net>
- * @covers \KawaiiGherkin\Formatter\Step
- * @group Coverage
- * @license MIT
- */
+#[CoversClass(Step::class)]
 final class StepTest extends TestCase
 {
-    /**
-     * @var Step
-     */
-    private $formatter;
+    private Step $formatter;
 
-    /**
-     * {@inheritDoc}
-     */
     public function setUp(): void
     {
         $this->formatter = new Step();

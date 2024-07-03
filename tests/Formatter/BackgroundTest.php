@@ -22,23 +22,15 @@ use Behat\Gherkin\Node\BackgroundNode;
 use Behat\Gherkin\Node\StepNode;
 use Behat\Gherkin\Node\TableNode;
 use KawaiiGherkin\Formatter\Background;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 
-/**
- * Tests for {@see \KawaiiGherkin\Formatter\Background}
- *
- * @author Jefersson Nathan <malukenho@phpse.net>
- * @covers \KawaiiGherkin\Formatter\Background
- * @group  Coverage
- * @license MIT
- */
+#[CoversClass(Background::class)]
 final class BackgroundTest extends TestCase
 {
-    /**
-     * @var Background
-     */
-    private $formatter;
+    private Background $formatter;
 
     /**
      * {@inheritDoc}
@@ -48,7 +40,8 @@ final class BackgroundTest extends TestCase
         $this->formatter = new Background();
     }
 
-    public function testCanFormatFeatureDescription()
+    #[Test]
+    public function canFormatFeatureDescription(): void
     {
         $expected = <<<EOS
     Background: Turning people kawaii

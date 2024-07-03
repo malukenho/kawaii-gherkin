@@ -19,32 +19,24 @@
 namespace KawaiiGherkinTest\Formatter;
 
 use KawaiiGherkin\Formatter\Tags;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Small;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Tests for {@see \KawaiiGherkin\Formatter\Tags}
- *
- * @author Jefersson Nathan <malukenho@phpse.net>
- * @covers \KawaiiGherkin\Formatter\Tags
- * @group Coverage
- * @license MIT
- */
+#[Small]
+#[CoversClass(Tags::class)]
 final class TagsTest extends TestCase
 {
-    /**
-     * @var Tags
-     */
-    private $formatter;
+    private Tags $formatter;
 
-    /**
-     * {@inheritDoc}
-     */
     public function setUp(): void
     {
         $this->formatter = new Tags();
     }
 
-    public function testCanFormatTag()
+    #[Test]
+    public function canFormatTag(): void
     {
         $wrongTagsInput = [
             '  user  ',

@@ -20,32 +20,22 @@ namespace KawaiiGherkinTest\Formatter;
 
 use Behat\Gherkin\Node\FeatureNode;
 use KawaiiGherkin\Formatter\FeatureDescription;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Tests for {@see \KawaiiGherkin\Formatter\FeatureDescription}
- *
- * @author Jefersson Nathan <malukenho@phpse.net>
- * @covers \KawaiiGherkin\Formatter\FeatureDescription
- * @group Coverage
- * @license MIT
- */
+#[CoversClass(FeatureDescription::class)]
 final class FeatureDescriptionTest extends TestCase
 {
-    /**
-     * @var FeatureDescription
-     */
-    private $formatter;
+    private FeatureDescription $formatter;
 
-    /**
-     * {@inheritDoc}
-     */
     public function setUp(): void
     {
         $this->formatter = new FeatureDescription();
     }
 
-    public function testCanFormatFeatureDescription()
+    #[Test]
+    public function canFormatFeatureDescription(): void
     {
         $expected =<<<EOS
 Feature: How to be a kawai person

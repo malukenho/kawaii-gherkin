@@ -21,32 +21,22 @@ namespace KawaiiGherkinTest\Formatter;
 use Behat\Gherkin\Node\ExampleTableNode;
 use Behat\Gherkin\Node\OutlineNode;
 use KawaiiGherkin\Formatter\Example;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Tests for {@see \KawaiiGherkin\Formatter\Example}
- *
- * @author Jefersson Nathan <malukenho@phpse.net>
- * @covers \KawaiiGherkin\Formatter\Example
- * @group Coverage
- * @license MIT
- */
+#[CoversClass(Example::class)]
 final class ExampleTest extends TestCase
 {
-    /**
-     * @var Example
-     */
-    private $formatter;
+    private Example $formatter;
 
-    /**
-     * {@inheritDoc}
-     */
     public function setUp(): void
     {
         $this->formatter = new Example();
     }
 
-    public function testCanGenerateExamplesTableProperly(): void
+    #[Test]
+    public function canGenerateExamplesTableProperly(): void
     {
         $expected = <<<EOS
         Examples:
@@ -67,7 +57,8 @@ EOS;
         self::assertSame($expected, $this->formatter->format($outlineNode));
     }
 
-    public function testShouldReturnVoidIfThereIsNoExample()
+    #[Test]
+    public function shouldReturnVoidIfThereIsNoExample(): void
     {
         $outlineNode = new OutlineNode(
             '',

@@ -3,22 +3,19 @@
 namespace KawaiiGherkinTest;
 
 use KawaiiGherkin\FeatureResolve;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 final class FeatureResolveTest extends TestCase
 {
-    /**
-     * @dataProvider unExistsDirectory
-     *
-     * @param string $directory
-     * @param string $expectedDirectory
-     * @param string $expectedFile
-     */
-    public function testShouldReturnCorrectDirectory(
-        $directory,
-        $expectedDirectory,
-        $expectedFile
-    ) {
+    #[Test]
+    #[DataProvider('unExistsDirectory')]
+    public function itShouldReturnCorrectDirectory(
+        string $directory,
+        string $expectedDirectory,
+        string $expectedFile
+    ): void {
         $feature = new FeatureResolve($directory);
 
         self::assertObjectHasProperty('directoryOrFile', $feature);

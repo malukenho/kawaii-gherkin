@@ -24,26 +24,14 @@ use Behat\Gherkin\Node\ScenarioNode;
 use Behat\Gherkin\Node\StepNode;
 use Behat\Gherkin\Node\TableNode;
 use KawaiiGherkin\Formatter\Scenario;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Tests for {@see \KawaiiGherkin\Formatter\Scenario}
- *
- * @author Jefersson Nathan <malukenho@phpse.net>
- * @covers \KawaiiGherkin\Formatter\Scenario
- * @group Coverage
- * @license MIT
-*/
+#[CoversClass(Scenario::class)]
 final class ScenarioTest extends TestCase
 {
-    /**
-     * @var Scenario
-     */
-    private $formatter;
+    private Scenario $formatter;
 
-    /**
-     * {@inheritDoc}
-     */
     public function setUp(): void
     {
         $this->formatter = new Scenario();
